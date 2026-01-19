@@ -1,0 +1,64 @@
+# ==========================================
+# 1. 编译产物 (Executable and intermediate files)
+# ==========================================
+*.map
+*.elf
+*.bin
+*.hex
+*.axf
+*.exe
+*.out
+*.o
+*.obj
+*.d
+*.i
+*.lib
+*.pyc
+*.uimg
+rtthread.bin
+build/
+Debug/
+_pycache_/
+
+# ==========================================
+# 2. Keil MDK / IAR 临时与个人配置文件
+# ==========================================
+# 必须忽略：包含本地窗口布局、最近打开文件等个人信息
+*.uvguix*
+*.uvoptx
+*.uvguix.*
+*.dep
+*.bak
+*.scvd
+project.uvoptx
+project.uvguix.*
+project.eww
+project.ewd
+project.dep
+DebugConfig/
+RTE/
+settings/
+
+# ==========================================
+# 3. Env 工具与 SCons 构建系统临时文件
+# ==========================================
+*.dblite
+.sconsign.dblite
+.config.old
+cconfig.h
+
+# ==========================================
+# 4. IDE 辅助与日志文件
+# ==========================================
+.vscode/
+JLinkLog.txt
+JLinkSettings.ini
+GPATH
+GRTAGS
+GTAGS
+.DS_Stor*
+*~
+
+
+
+documentation/html
