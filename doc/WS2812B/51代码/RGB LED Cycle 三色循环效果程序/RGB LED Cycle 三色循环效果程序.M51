@@ -1,0 +1,555 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        12/13/2015  16:08:52  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+C:\KEIL4\C51\BIN\BL51.EXE STARTUP.obj, Main.obj, ws2812.obj, Keypad.obj, Delay.obj TO RGB LED Cycle 三色循环效果程序 COD
+>> E (0X0000-0X0FFF)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  STARTUP.obj (?C_STARTUP)
+  Main.obj (MAIN)
+  ws2812.obj (WS2812)
+  Keypad.obj (KEYPAD)
+  Delay.obj (DELAY)
+  C:\KEIL4\C51\LIB\C51S.LIB (?C?COPY)
+  C:\KEIL4\C51\LIB\C51S.LIB (?C?CLDOPTR)
+
+
+LINK MAP OF MODULE:  RGB LED Cycle 三色循环效果程序 (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0020H     UNIT         _DATA_GROUP_
+            DATA    0028H     0005H     UNIT         ?DT?_SENDONEFRAMEFROM?WS2812
+            DATA    002DH     0005H     UNIT         ?DT?_SENDONEFRAMESINCE?WS2812
+            DATA    0032H     0004H     UNIT         ?DT?_SENDSAMECOLOR?WS2812
+            DATA    0036H     0001H     UNIT         ?DT?GETKEY?KEYPAD
+            IDATA   0037H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0123H     UNIT         ?C?LIB_CODE
+            CODE    0126H     0096H     UNIT         ?PR?MAIN?MAIN
+            CODE    01BCH     0072H     UNIT         ?PR?_SENDONEPIX?WS2812
+            CODE    022EH     0050H     UNIT         ?PR?_SENDONEFRAMESINCE?WS2812
+            CODE    027EH     004BH     UNIT         ?PR?GETKEY?KEYPAD
+            CODE    02C9H     0039H     UNIT         ?PR?_SENDONEFRAMEFROM?WS2812
+            CODE    0302H     002BH     UNIT         ?PR?_SENDONEFRAME?WS2812
+            CODE    032DH     0022H     UNIT         ?PR?_SENDSAMECOLOR?WS2812
+            CODE    034FH     001DH     UNIT         ?PR?_DELAY100MS?DELAY
+            CODE    036CH     0018H     UNIT         ?CO?MAIN
+            CODE    0384H     0017H     UNIT         ?PR?_DELAYMS?DELAY
+            CODE    039BH     000FH     UNIT         ?PR?RESETDATAFLOW?WS2812
+            CODE    03AAH     000CH     UNIT         ?C_C51STARTUP
+            CODE    03B6H     0005H     UNIT         ?PR?KEYPAD_IO_INIT?KEYPAD
+            CODE    03BBH     0001H     UNIT         ?PR?IO_INIT?WS2812
+
+
+
+OVERLAY MAP OF MODULE:   RGB LED Cycle 三色循环效果程序 (?C_STARTUP)
+
+
+SEGMENT                                 DATA_GROUP 
+  +--> CALLED SEGMENT                 START    LENGTH
+BL51 BANKED LINKER/LOCATER V6.22                                                      12/13/2015  16:08:52  PAGE 2
+
+
+-----------------------------------------------------
+?C_C51STARTUP                         -----    -----
+  +--> ?PR?MAIN?MAIN
+
+?PR?MAIN?MAIN                         0008H    0019H
+  +--> ?CO?MAIN
+  +--> ?PR?_DELAYMS?DELAY
+  +--> ?PR?_SENDONEFRAME?WS2812
+  +--> ?PR?_DELAY100MS?DELAY
+
+?PR?_SENDONEFRAME?WS2812              0021H    0004H
+  +--> ?PR?RESETDATAFLOW?WS2812
+  +--> ?PR?_SENDONEPIX?WS2812
+
+?PR?_SENDONEPIX?WS2812                0025H    0003H
+
+
+
+SYMBOL TABLE OF MODULE:  RGB LED Cycle 三色循环效果程序 (?C_STARTUP)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ?C_STARTUP
+  C:03AAH         SEGMENT       ?C_C51STARTUP
+  I:0037H         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:03ADH         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:03AAH         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:03AAH         LINE#         133
+  C:03ACH         LINE#         134
+  C:03ADH         LINE#         135
+  C:03AEH         LINE#         136
+  C:03B0H         LINE#         185
+  C:03B3H         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+BL51 BANKED LINKER/LOCATER V6.22                                                      12/13/2015  16:08:52  PAGE 3
+
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:00C0H         PUBLIC        P4
+  D:00C8H         PUBLIC        P5
+  D:00E8H         PUBLIC        P6
+  D:00F8H         PUBLIC        P7
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  D:00D8H         PUBLIC        CCON
+  C:0126H         PUBLIC        main
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  C:036CH         SYMBOL        _?ix1000
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          MAIN
+  -------         DO            
+  D:0007H         SYMBOL        i
+  D:0008H         SYMBOL        oneTimeFlag
+  D:0009H         SYMBOL        s
+  -------         ENDDO         
+  C:0126H         LINE#         34
+  C:0126H         LINE#         35
+  C:0126H         LINE#         37
+  C:0129H         LINE#         38
+  C:013AH         LINE#         41
+  C:013FH         LINE#         43
+  C:0142H         LINE#         45
+  C:0142H         LINE#         46
+  C:0142H         LINE#         47
+  C:014BH         LINE#         49
+  C:014DH         LINE#         50
+  C:014DH         LINE#         51
+  C:0157H         LINE#         52
+  C:0161H         LINE#         53
+  C:0165H         LINE#         55
+  C:016AH         LINE#         56
+  C:0173H         LINE#         58
+  C:0175H         LINE#         59
+  C:0175H         LINE#         60
+  C:017FH         LINE#         61
+  C:0189H         LINE#         62
+  C:018DH         LINE#         64
+  C:0192H         LINE#         65
+  C:019BH         LINE#         67
+  C:019DH         LINE#         68
+  C:019DH         LINE#         69
+  C:01A7H         LINE#         70
+  C:01B1H         LINE#         71
+  C:01B5H         LINE#         73
+  C:01BAH         LINE#         74
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+BL51 BANKED LINKER/LOCATER V6.22                                                      12/13/2015  16:08:52  PAGE 4
+
+
+  -------         MODULE        WS2812
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:00C0H         PUBLIC        P4
+  D:00C8H         PUBLIC        P5
+  D:00E8H         PUBLIC        P6
+  D:00F8H         PUBLIC        P7
+  B:00C8H.5       PUBLIC        DI
+  D:00A8H         PUBLIC        IE
+  C:03BBH         PUBLIC        IO_Init
+  C:022EH         PUBLIC        _SendOneFrameSince
+  C:032DH         PUBLIC        _SendSameColor
+  D:00B8H         PUBLIC        IP
+  C:039BH         PUBLIC        ResetDataFlow
+  C:0302H         PUBLIC        _SendOneFrame
+  D:00D8H         PUBLIC        CCON
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  C:02C9H         PUBLIC        _SendOneFrameFrom
+  C:01CCH         PUBLIC        _SendOnePix
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          IO_INIT
+  C:03BBH         LINE#         38
+  C:03BBH         LINE#         39
+  C:03BBH         LINE#         41
+  -------         ENDPROC       IO_INIT
+  -------         PROC          RESETDATAFLOW
+  -------         DO            
+  D:0007H         SYMBOL        i
+  D:0006H         SYMBOL        j
+  -------         ENDDO         
+  C:039BH         LINE#         48
+  C:039BH         LINE#         49
+  C:039BH         LINE#         51
+  C:039DH         LINE#         52
+  C:039FH         LINE#         53
+  C:039FH         LINE#         54
+  C:03A1H         LINE#         55
+  C:03A1H         LINE#         57
+  C:03A5H         LINE#         58
+  C:03A9H         LINE#         59
+  -------         ENDPROC       RESETDATAFLOW
+  -------         PROC          L?0041
+  -------         ENDPROC       L?0041
+  -------         PROC          _SENDONEPIX
+  D:0025H         SYMBOL        ptr
+  -------         DO            
+  D:0005H         SYMBOL        i
+  D:0007H         SYMBOL        j
+  D:0006H         SYMBOL        temp
+  -------         ENDDO         
+  C:01CCH         LINE#         67
+  C:01D2H         LINE#         68
+  C:01D2H         LINE#         72
+BL51 BANKED LINKER/LOCATER V6.22                                                      12/13/2015  16:08:52  PAGE 5
+
+
+  C:01D4H         LINE#         73
+  C:01D4H         LINE#         74
+  C:01E3H         LINE#         75
+  C:01E5H         LINE#         76
+  C:01E5H         LINE#         77
+  C:01E9H         LINE#         78
+  C:01E9H         LINE#         79
+  C:01EBH         LINE#         80
+  C:01ECH         LINE#         81
+  C:01EDH         LINE#         82
+  C:01EEH         LINE#         83
+  C:01EFH         LINE#         84
+  C:01F0H         LINE#         85
+  C:01F1H         LINE#         86
+  C:01F2H         LINE#         87
+  C:01F3H         LINE#         88
+  C:01F4H         LINE#         89
+  C:01F5H         LINE#         90
+  C:01F6H         LINE#         91
+  C:01F7H         LINE#         92
+  C:01F8H         LINE#         93
+  C:01F9H         LINE#         94
+  C:01FAH         LINE#         95
+  C:01FBH         LINE#         96
+  C:01FCH         LINE#         97
+  C:01FDH         LINE#         98
+  C:01FEH         LINE#         99
+  C:01FFH         LINE#         101
+  C:0201H         LINE#         102
+  C:0201H         LINE#         103
+  C:0201H         LINE#         104
+  C:0201H         LINE#         105
+  C:0201H         LINE#         106
+  C:0201H         LINE#         107
+  C:0201H         LINE#         108
+  C:0201H         LINE#         109
+  C:0201H         LINE#         110
+  C:0201H         LINE#         111
+  C:0201H         LINE#         112
+  C:0201H         LINE#         113
+  C:0201H         LINE#         114
+  C:0201H         LINE#         115
+  C:0201H         LINE#         116
+  C:0201H         LINE#         117
+  C:0203H         LINE#         119
+  C:0203H         LINE#         120
+  C:0205H         LINE#         121
+  C:0206H         LINE#         122
+  C:0207H         LINE#         123
+  C:0208H         LINE#         124
+  C:0209H         LINE#         125
+  C:020AH         LINE#         126
+  C:020BH         LINE#         127
+  C:020CH         LINE#         129
+  C:020EH         LINE#         130
+  C:020FH         LINE#         131
+  C:0210H         LINE#         132
+BL51 BANKED LINKER/LOCATER V6.22                                                      12/13/2015  16:08:52  PAGE 6
+
+
+  C:0211H         LINE#         133
+  C:0212H         LINE#         134
+  C:0213H         LINE#         135
+  C:0214H         LINE#         136
+  C:0215H         LINE#         137
+  C:0216H         LINE#         138
+  C:0217H         LINE#         139
+  C:0218H         LINE#         140
+  C:0219H         LINE#         141
+  C:021AH         LINE#         142
+  C:021BH         LINE#         143
+  C:021CH         LINE#         144
+  C:021DH         LINE#         145
+  C:021EH         LINE#         146
+  C:021FH         LINE#         147
+  C:0220H         LINE#         148
+  C:0221H         LINE#         149
+  C:0221H         LINE#         150
+  C:0225H         LINE#         151
+  C:0229H         LINE#         152
+  C:022DH         LINE#         153
+  -------         ENDPROC       _SENDONEPIX
+  -------         PROC          _SENDONEFRAME
+  D:0021H         SYMBOL        ptr
+  -------         DO            
+  D:0024H         SYMBOL        k
+  -------         ENDDO         
+  C:0302H         LINE#         159
+  C:0308H         LINE#         160
+  C:0308H         LINE#         163
+  C:030BH         LINE#         165
+  C:030EH         LINE#         166
+  C:030EH         LINE#         167
+  C:0321H         LINE#         168
+  C:032AH         LINE#         170
+  -------         ENDPROC       _SENDONEFRAME
+  -------         PROC          _SENDSAMECOLOR
+  D:0032H         SYMBOL        ptr
+  D:0035H         SYMBOL        cnt
+  -------         DO            
+  D:0004H         SYMBOL        k
+  -------         ENDDO         
+  C:032DH         LINE#         178
+  C:0335H         LINE#         179
+  C:0335H         LINE#         182
+  C:0338H         LINE#         184
+  C:0340H         LINE#         185
+  C:0340H         LINE#         186
+  C:0349H         LINE#         187
+  C:034CH         LINE#         189
+  -------         ENDPROC       _SENDSAMECOLOR
+  -------         PROC          _SENDONEFRAMEFROM
+  D:0028H         SYMBOL        i
+  D:0029H         SYMBOL        ptr
+  -------         DO            
+  D:002CH         SYMBOL        k
+  -------         ENDDO         
+BL51 BANKED LINKER/LOCATER V6.22                                                      12/13/2015  16:08:52  PAGE 7
+
+
+  C:02C9H         LINE#         198
+  C:02D1H         LINE#         199
+  C:02D1H         LINE#         202
+  C:02D4H         LINE#         204
+  C:02E2H         LINE#         205
+  C:02E2H         LINE#         206
+  C:02E5H         LINE#         207
+  C:02E9H         LINE#         208
+  C:02F8H         LINE#         209
+  C:02F8H         LINE#         210
+  C:02FBH         LINE#         211
+  C:02FFH         LINE#         213
+  -------         ENDPROC       _SENDONEFRAMEFROM
+  -------         PROC          _SENDONEFRAMESINCE
+  D:002DH         SYMBOL        i
+  D:002EH         SYMBOL        ptr
+  -------         DO            
+  D:0031H         SYMBOL        k
+  -------         ENDDO         
+  C:022EH         LINE#         224
+  C:0236H         LINE#         225
+  C:0236H         LINE#         228
+  C:0239H         LINE#         230
+  C:0243H         LINE#         231
+  C:0243H         LINE#         232
+  C:0256H         LINE#         233
+  C:025AH         LINE#         234
+  C:0264H         LINE#         235
+  C:0264H         LINE#         236
+  C:0277H         LINE#         237
+  C:027BH         LINE#         238
+  -------         ENDPROC       _SENDONEFRAMESINCE
+  -------         ENDMOD        WS2812
+
+  -------         MODULE        KEYPAD
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:00C0H         PUBLIC        P4
+  D:00C8H         PUBLIC        P5
+  D:00E8H         PUBLIC        P6
+  D:00F8H         PUBLIC        P7
+  D:00A8H         PUBLIC        IE
+  B:00B0H.2       PUBLIC        Button_1
+  B:00B0H.3       PUBLIC        Button_2
+  D:00B8H         PUBLIC        IP
+  D:00D8H         PUBLIC        CCON
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  C:027EH         PUBLIC        GetKey
+  C:03B6H         PUBLIC        Keypad_IO_Init
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          KEYPAD_IO_INIT
+  C:03B6H         LINE#         36
+  C:03B6H         LINE#         37
+BL51 BANKED LINKER/LOCATER V6.22                                                      12/13/2015  16:08:52  PAGE 8
+
+
+  C:03B6H         LINE#         38
+  C:03B8H         LINE#         39
+  C:03BAH         LINE#         40
+  -------         ENDPROC       KEYPAD_IO_INIT
+  -------         PROC          GETKEY
+  -------         DO            
+  D:0036H         SYMBOL        i
+  -------         ENDDO         
+  C:027EH         LINE#         47
+  C:027EH         LINE#         48
+  C:027EH         LINE#         50
+  C:0280H         LINE#         51
+  C:0282H         LINE#         53
+  C:0285H         LINE#         54
+  C:0285H         LINE#         55
+  C:028AH         LINE#         56
+  C:028DH         LINE#         57
+  C:028DH         LINE#         58
+  C:0290H         LINE#         59
+  C:0290H         LINE#         60
+  C:0293H         LINE#         61
+  C:0293H         LINE#         62
+  C:0296H         LINE#         63
+  C:0296H         LINE#         64
+  C:029BH         LINE#         65
+  C:02A4H         LINE#         66
+  C:02A4H         LINE#         67
+  C:02A4H         LINE#         68
+  C:02A7H         LINE#         69
+  C:02A7H         LINE#         70
+  C:02ACH         LINE#         71
+  C:02AFH         LINE#         72
+  C:02AFH         LINE#         73
+  C:02B2H         LINE#         74
+  C:02B2H         LINE#         75
+  C:02B5H         LINE#         76
+  C:02B5H         LINE#         77
+  C:02B8H         LINE#         78
+  C:02B8H         LINE#         79
+  C:02BDH         LINE#         80
+  C:02C6H         LINE#         81
+  C:02C6H         LINE#         82
+  C:02C6H         LINE#         83
+  C:02C8H         LINE#         84
+  -------         ENDPROC       GETKEY
+  -------         ENDMOD        KEYPAD
+
+  -------         MODULE        DELAY
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  C:0384H         PUBLIC        _DelayMs
+  C:034FH         PUBLIC        _Delay100Ms
+  -------         PROC          _DELAYMS
+  D:0007H         SYMBOL        m
+  -------         DO            
+  D:0005H         SYMBOL        i
+  D:0004H         SYMBOL        j
+  D:0006H         SYMBOL        k
+BL51 BANKED LINKER/LOCATER V6.22                                                      12/13/2015  16:08:52  PAGE 9
+
+
+  -------         ENDDO         
+  C:0384H         LINE#         35
+  C:0384H         LINE#         36
+  C:0384H         LINE#         38
+  C:038BH         LINE#         39
+  C:038BH         LINE#         40
+  C:038DH         LINE#         41
+  C:038DH         LINE#         42
+  C:038FH         LINE#         43
+  C:038FH         LINE#         45
+  C:0393H         LINE#         46
+  C:0397H         LINE#         47
+  C:039AH         LINE#         48
+  -------         ENDPROC       _DELAYMS
+  -------         PROC          _DELAY100MS
+  D:0007H         SYMBOL        m
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0003H         SYMBOL        j
+  D:0005H         SYMBOL        k
+  D:0006H         SYMBOL        l
+  -------         ENDDO         
+  C:034FH         LINE#         53
+  C:034FH         LINE#         54
+  C:034FH         LINE#         56
+  C:0356H         LINE#         57
+  C:0356H         LINE#         58
+  C:0358H         LINE#         59
+  C:0358H         LINE#         60
+  C:035AH         LINE#         61
+  C:035AH         LINE#         62
+  C:035CH         LINE#         63
+  C:035CH         LINE#         65
+  C:0360H         LINE#         66
+  C:0364H         LINE#         67
+  C:0368H         LINE#         68
+  C:036BH         LINE#         69
+  -------         ENDPROC       _DELAY100MS
+  -------         ENDMOD        DELAY
+
+  -------         MODULE        ?C?COPY
+  C:00D3H         PUBLIC        ?C?COPY
+  -------         ENDMOD        ?C?COPY
+
+  -------         MODULE        ?C?CLDOPTR
+  C:00F9H         PUBLIC        ?C?CLDOPTR
+  -------         ENDMOD        ?C?CLDOPTR
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?IO_INIT?WS2812
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SENDSAMECOLOR?WS2812
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SENDONEFRAMEFROM?WS2812
+
+BL51 BANKED LINKER/LOCATER V6.22                                                      12/13/2015  16:08:52  PAGE 10
+
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SENDONEFRAMESINCE?WS2812
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?KEYPAD_IO_INIT?KEYPAD
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GETKEY?KEYPAD
+
+Program Size: data=56.0 xdata=0 code=956
+LINK/LOCATE RUN COMPLETE.  6 WARNING(S),  0 ERROR(S)

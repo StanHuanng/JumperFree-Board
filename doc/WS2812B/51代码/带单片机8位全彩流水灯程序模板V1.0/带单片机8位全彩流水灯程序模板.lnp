@@ -1,0 +1,6 @@
+"STARTUP.obj",
+"Main.obj",
+"ws2812.obj",
+"Delay.obj" 
+TO "带单片机8位全彩流水灯程序模板" 
+RAMSIZE(256) 

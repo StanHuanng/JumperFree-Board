@@ -1,0 +1,72 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Project:</h2>
+D:\管理\02-新品\07调试管理\20113-RGB led cycle Display Board\调试过程文件\调试程序\RGB LED Cycle 单个红色旋转效果程序\RGB LED Cycle 单个红色旋转效果程序.uvproj
+Project File Date:  03/15/2014
+
+<h2>Output:</h2>
+Build target 'STC15F104E'
+assembling STARTUP.A51...
+compiling Main.c...
+MAIN.C(58): warning C182: pointer to different objects
+compiling ws2812.c...
+compiling Keypad.c...
+compiling Delay.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?IO_INIT?WS2812
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SENDONEFRAMEFROM?WS2812
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SENDONEFRAMESINCE?WS2812
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?KEYPAD_IO_INIT?KEYPAD
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GETKEY?KEYPAD
+Program Size: data=109.0 xdata=0 code=950
+creating hex file from "RGB LED Cycle Test"...
+"RGB LED Cycle Test" - 0 Error(s), 6 Warning(s).
+Build target 'STC15F104E'
+assembling STARTUP.A51...
+compiling Main.c...
+MAIN.C(58): warning C182: pointer to different objects
+compiling ws2812.c...
+compiling Keypad.c...
+compiling Delay.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?IO_INIT?WS2812
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SENDONEFRAMEFROM?WS2812
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SENDONEFRAMESINCE?WS2812
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?KEYPAD_IO_INIT?KEYPAD
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GETKEY?KEYPAD
+Program Size: data=109.0 xdata=0 code=950
+creating hex file from "RGB LED Cycle 单个红色旋转效果程序"...
+"RGB LED Cycle 单个红色旋转效果程序" - 0 Error(s), 6 Warning(s).
+Build target 'STC15F104E'
+assembling STARTUP.A51...
+compiling Main.c...
+MAIN.C(58): warning C182: pointer to different objects
+compiling ws2812.c...
+compiling Keypad.c...
+compiling Delay.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?IO_INIT?WS2812
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SENDONEFRAMEFROM?WS2812
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SENDONEFRAMESINCE?WS2812
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?KEYPAD_IO_INIT?KEYPAD
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GETKEY?KEYPAD
+Program Size: data=109.0 xdata=0 code=950
+creating hex file from "RGB LED Cycle 单个红色旋转效果程序"...
+"RGB LED Cycle 单个红色旋转效果程序" - 0 Error(s), 6 Warning(s).

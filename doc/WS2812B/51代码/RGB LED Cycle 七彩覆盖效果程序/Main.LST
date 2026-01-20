@@ -1,0 +1,163 @@
+C51 COMPILER V9.01   MAIN                                                                  12/13/2015 15:59:19 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN Main.OBJ
+COMPILER INVOKED BY: C:\Keil4\C51\BIN\C51.EXE Main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /*------------------------------------------------------------------------------------
+   2           * 项目名称:
+   3          
+   4               RGB LED 测试程序
+   5          
+   6           * 功能描述:
+   7          
+   8                   七种颜色变化
+   9          
+  10           * 版权信息:
+  11          
+  12               (c) 飞翼电子, 2014.
+  13          
+  14           * 历史版本:
+  15               2014-03-7:
+  16                 - 初始版本 V1.0.0;
+  17          
+  18           * 配置说明:
+  19                   - MCU    ：STC15W204S
+  20                   - CPU频率：33MHz
+  21          -------------------------------------------------------------------------------------*/
+  22          
+  23          #define Port P3
+  24          #define GREEN 0
+  25          #define RED 1
+  26          #define BLUE 2
+  27          
+  28          /************************包含头文件***************************************************/
+  29          
+  30          #include "STC15W.h"
+  31          #include "ws2812.h"
+  32          #include "delay.h"
+  33          #include "keypad.h"
+  34          
+  35          /************************主程序*******************************************************/
+  36          
+  37          void  main()
+  38          {
+  39   1              unsigned char i;
+  40   1              unsigned char s[8][3]={{85,1,1},{85,1,1},{85,1,1},{85,1,1},{85,1,1},{85,1,1},
+  41   1              {85,1,1},{85,1,1}};     //定义一个二维，每个括号内的三个数据对应一个像素点{G,R,B}
+  42   1      
+  43   1              DelayMs(200);                                   //上电等待延时
+  44   1      
+  45   1              Port=0xff;                                              //初始化端口为高电平
+  46   1      
+  47   1              SendOneFrame(s);        //显示数组中的数据
+*** WARNING C182 IN LINE 47 OF MAIN.C: pointer to different objects
+  48   1              Delay100Ms(1);  
+  49   1      
+  50   1              while(1)
+  51   1              {                       
+  52   2      
+  53   2                      for(i=0;i<8;i++)        //修改数组中的数据，显示橙色
+  54   2                      {
+C51 COMPILER V9.01   MAIN                                                                  12/13/2015 15:59:19 PAGE 2   
+
+  55   3                              s[i][RED]=75;
+  56   3                              s[i][GREEN]=23;
+  57   3                              s[i][BLUE]=0;
+  58   3      
+  59   3                              SendOneFrame(s);        //显示数组中的数据
+*** WARNING C182 IN LINE 59 OF MAIN.C: pointer to different objects
+  60   3                              Delay100Ms(1);  
+  61   3                      }
+  62   2                      
+  63   2                      for(i=0;i<8;i++)        //修改数组中的数据,显示黄色
+  64   2                      {
+  65   3                              s[i][RED]=74;
+  66   3                              s[i][GREEN]=75;
+  67   3                              s[i][BLUE]=1;
+  68   3      
+  69   3                              SendOneFrame(s);        //显示数组中的数据
+*** WARNING C182 IN LINE 69 OF MAIN.C: pointer to different objects
+  70   3                              Delay100Ms(1);  
+  71   3                      }
+  72   2      
+  73   2                      for(i=0;i<8;i++)        //修改数组中的数据，显示绿色
+  74   2                      {
+  75   3                              s[i][RED]=0;
+  76   3                              s[i][GREEN]=75;
+  77   3                              s[i][BLUE]=9;
+  78   3      
+  79   3                              SendOneFrame(s);        //显示数组中的数据
+*** WARNING C182 IN LINE 79 OF MAIN.C: pointer to different objects
+  80   3                              Delay100Ms(1);  
+  81   3                      }
+  82   2      
+  83   2                      for(i=0;i<8;i++)        //修改数组中的数据，显示浅蓝
+  84   2                      {
+  85   3                              s[i][RED]=0;
+  86   3                              s[i][GREEN]=75;
+  87   3                              s[i][BLUE]=72;
+  88   3      
+  89   3                              SendOneFrame(s);        //显示数组中的数据
+*** WARNING C182 IN LINE 89 OF MAIN.C: pointer to different objects
+  90   3                              Delay100Ms(1);  
+  91   3                      }
+  92   2      
+  93   2                      for(i=0;i<8;i++)        //修改数组中的数据,显示蓝色
+  94   2                      {
+  95   3                              s[i][RED]=4;
+  96   3                              s[i][GREEN]=1;
+  97   3                              s[i][BLUE]=82;
+  98   3      
+  99   3                              SendOneFrame(s);        //显示数组中的数据
+*** WARNING C182 IN LINE 99 OF MAIN.C: pointer to different objects
+ 100   3                              Delay100Ms(1);  
+ 101   3                      }
+ 102   2      
+ 103   2                      for(i=0;i<8;i++)        //修改数组中的数据，显示紫色
+ 104   2                      {
+ 105   3                              s[i][RED]=75;
+ 106   3                              s[i][GREEN]=1;
+ 107   3                              s[i][BLUE]=67;
+ 108   3      
+ 109   3                              SendOneFrame(s);        //显示数组中的数据
+*** WARNING C182 IN LINE 109 OF MAIN.C: pointer to different objects
+ 110   3                              Delay100Ms(1);  
+C51 COMPILER V9.01   MAIN                                                                  12/13/2015 15:59:19 PAGE 3   
+
+ 111   3                      }
+ 112   2                      
+ 113   2                      for(i=0;i<8;i++)        //修改数组中的数据,显示红色
+ 114   2                      {
+ 115   3                              s[i][RED]=85;
+ 116   3                              s[i][GREEN]=1;
+ 117   3                              s[i][BLUE]=1;
+ 118   3      
+ 119   3                              SendOneFrame(s);        //显示数组中的数据
+*** WARNING C182 IN LINE 119 OF MAIN.C: pointer to different objects
+ 120   3                              Delay100Ms(1);  
+ 121   3                      }
+ 122   2              }
+ 123   1      }
+ 124          
+ 125          
+ 126          
+ 127          
+ 128          /************************结束*******************************************************/
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    458    ----
+   CONSTANT SIZE    =     24    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      25
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  8 WARNING(S),  0 ERROR(S)

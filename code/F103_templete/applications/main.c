@@ -17,7 +17,7 @@
 #endif /* RT_USING_NANO */
 
 /* defined the LED2 (user LED) pin: PA5 */
-#define LED2_PIN    GET_PIN(A, 5)
+#define LED2_PIN    GET_PIN(C, 13)
 
 int main(void)
 {

@@ -1,0 +1,7 @@
+"STARTUP.obj",
+"Main.obj",
+"ws2812.obj",
+"Keypad.obj",
+"Delay.obj" 
+TO "RGB LED Cycle 红绿蓝三色旋转效果程序2" 
+CODE( 0X0000-0X0FFF )

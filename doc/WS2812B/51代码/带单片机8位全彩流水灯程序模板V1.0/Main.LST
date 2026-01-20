@@ -1,0 +1,430 @@
+C51 COMPILER V9.54   MAIN                                                                  04/16/2016 18:40:38 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN Main.OBJ
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE Main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /*------------------------------------------------------------------------------------
+   2           * 项目名称:
+   3          
+   4               带单片机8位全彩流水灯模板程序V1.0
+   5          
+   6           * 功能描述:
+   7          
+   8                   1、两个按键采用中断形式，一个控制显示模式，一个控制显示颜色
+   9          
+  10           * 版权信息:
+  11          
+  12               (c) 飞翼电子, 2016.
+  13          
+  14           * 历史版本:
+  15               2016-01-27:
+  16                 - 初始版本 V1.0.0;
+  17          
+  18           * 配置说明:
+  19                   - MCU    ：STC15W204S
+  20                   - CPU频率：30MHz
+  21          -------------------------------------------------------------------------------------*/
+  22          
+  23          /**************************************子函数声明*************************************/
+  24          
+  25          //子程序名称:IO_Init(void)      功能：端口初始化，使能中断
+  26          void System_Init(void);
+  27          
+  28          /**************************************包含头文件*************************************/
+  29          
+  30          #include "STC15W.h"
+  31          #include "ws2812.h"              //包含LED驱动程序
+  32          #include "delay.h"               //包含延时程序
+  33          
+  34          /***************************************硬件接口**************************************/
+  35          
+  36          sbit BTN1 = P3^2;        //按钮1连接P3.2
+  37          sbit BTN2 = P3^3;        //按钮2连接P3.3
+  38          
+  39          /***************************************全局变量**************************************/
+  40          unsigned char mode=0;             //控制显示模式
+  41          unsigned char color=0;            //控制显示颜色
+  42          
+  43          //9种颜色数据
+  44          code unsigned char  colorArr[9][3]={{126,249,7},{242,212,241},{122,14,197},{42,238,27}
+  45          ,{234,251,38},{35,218,3},{64,24,114},{250,18,20},{18,231,250}};
+  46          
+  47          //定义一个二维，每个括号内的三个数据对应一个像素点
+  48          //16像素点的数组，每个像素点的颜色由3个字节绝对{绿，红，蓝}
+  49          unsigned char s[16][3]={{50,5,5},{50,5,5},{50,5,5},{50,5,5},{50,5,5},{50,5,5},
+  50          {50,5,5},{50,5,5},{50,5,5},{50,5,5},{50,5,5},{50,5,5},{50,5,5},{50,5,5},
+  51          {50,5,5},{50,5,5}};     
+  52          
+  53          //8像素点的数组，每个像素点的颜色由3个字节绝对{绿，红，蓝}
+  54          //unsigned char s[16][3]={{50,5,5},{50,5,5},{50,5,5},{50,5,5},{50,5,5},{50,5,5},
+  55          //{50,5,5},{50,5,5}};   
+C51 COMPILER V9.54   MAIN                                                                  04/16/2016 18:40:38 PAGE 2   
+
+  56          
+  57          //定义一个拖尾数组
+  58          unsigned char tail[5][3]={{50,5,5},{50,5,5},{50,5,5},{50,5,5},{50,5,5}};
+  59          
+  60          //定义两个消减比
+  61          code unsigned char cut[5]={3,2,0,2,3};
+  62          code unsigned char cut2[5]={1,2,3,2,1};
+  63          /***************************************主程序****************************************/
+  64          
+  65          void  main()
+  66          {
+  67   1              unsigned char i,j,k;
+  68   1              unsigned char side=0;
+  69   1              
+  70   1              DelayMs(100);                     //上电延时
+  71   1              System_Init();                    //系统初始化
+  72   1          EA = 1;                                       //使能中断
+  73   1      
+  74   1              //上电让所有LED灭掉
+  75   1              for(i=0;i<16;i++)
+  76   1              {
+  77   2                      s[i][0]=0;                    //修改数组中的数据
+  78   2                      s[i][1]=0;
+  79   2                      s[i][2]=0;
+  80   2              }
+  81   1              SendOneFrame(s);                  //显示数组中的数据
+*** WARNING C182 IN LINE 81 OF Main.c: pointer to different objects
+  82   1              Delay100Ms(1);
+  83   1              
+  84   1              
+  85   1              //主循环
+  86   1              while(1)
+  87   1              {
+  88   2                      //模式0，16位LED单侧反复循环
+  89   2                      switch (mode)
+  90   2                      {
+  91   3                              
+  92   3                              //模式0：固定显示单一颜色
+  93   3                              case 0:
+  94   3                              {                               
+  95   4                                      //循环修改数组数据，然后显示
+  96   4                                      for(i=0;i<SNUM;i++)
+  97   4                                      {
+  98   5                                              s[i][0]=colorArr[color][0];
+  99   5                                              s[i][1]=colorArr[color][1];
+ 100   5                                              s[i][2]=colorArr[color][2];
+ 101   5                                      }
+ 102   4                                      //发送显示数据
+ 103   4                                      SendOneFrame(s);
+*** WARNING C182 IN LINE 103 OF Main.c: pointer to different objects
+ 104   4                                      Delay100Ms(1);
+ 105   4                                      
+ 106   4                                      //每显示一次，检查是否模式mode已改变，如果改变了则退出
+ 107   4                                      if(mode!=0)
+ 108   4                                      {
+ 109   5                                              break;
+ 110   5                                      }
+ 111   4                                      //本模式执行完，跳出
+ 112   4                                      break;
+ 113   4                              }
+ 114   3                              //模式1：单色从左到右循环显示
+ 115   3                              case 1:
+C51 COMPILER V9.54   MAIN                                                                  04/16/2016 18:40:38 PAGE 3   
+
+ 116   3                              {
+ 117   4                                      //进入循环显示前让所有LED灭掉
+ 118   4                                      for(i=0;i<SNUM;i++)
+ 119   4                                      {
+ 120   5                                              s[i][0]=0;                  
+ 121   5                                              s[i][1]=0;
+ 122   5                                              s[i][2]=0;
+ 123   5                                      }
+ 124   4                                      SendOneFrame(s);                
+*** WARNING C182 IN LINE 124 OF Main.c: pointer to different objects
+ 125   4                                      Delay100Ms(1);
+ 126   4                                      
+ 127   4                                      //循环修改数组数据，然后显示
+ 128   4                                      for(i=0;i<SNUM;i++)
+ 129   4                                      {
+ 130   5                                              s[i][0]=colorArr[color][0];
+ 131   5                                              s[i][1]=colorArr[color][1];
+ 132   5                                              s[i][2]=colorArr[color][2];
+ 133   5                      
+ 134   5                                              SendOneFrame(s);
+*** WARNING C182 IN LINE 134 OF Main.c: pointer to different objects
+ 135   5                                              Delay100Ms(1);
+ 136   5                                              
+ 137   5                                              //每显示一次，检查是否模式mode已改变，如果改变了则退出
+ 138   5                                              if(mode!=1)
+ 139   5                                              {
+ 140   6                                                      break;
+ 141   6                                              }
+ 142   5                                      }
+ 143   4                                      //本模式执行完，跳出
+ 144   4                                      break;
+ 145   4                              }
+ 146   3                              //模式2：9色静态切换
+ 147   3                              case 2:
+ 148   3                              {
+ 149   4                                      for(j=0;j<9;j++)
+ 150   4                                      {                                       
+ 151   5                                              for(i=0;i<SNUM;i++)
+ 152   5                                              {
+ 153   6                                                      s[i][0]=colorArr[j][0];             
+ 154   6                                                      s[i][1]=colorArr[j][1];
+ 155   6                                                      s[i][2]=colorArr[j][2];
+ 156   6                                              }
+ 157   5                                              SendOneFrame(s);                
+*** WARNING C182 IN LINE 157 OF Main.c: pointer to different objects
+ 158   5                                              Delay100Ms(5);
+ 159   5                                              //每显示一次，检查是否模式mode已改变，如果改变了则退出
+ 160   5                                              if(mode!=2)
+ 161   5                                              {
+ 162   6                                                      break;
+ 163   6                                              }
+ 164   5                                      }                                                                       
+ 165   4                                      //本模式执行完，跳出
+ 166   4                                      break;
+ 167   4                              }
+ 168   3                              
+ 169   3                              //模式3：9色流水显示
+ 170   3                              case 3:
+ 171   3                              {                                       
+ 172   4                                      //进入循环显示前让所有LED灭掉
+ 173   4                                      for(i=0;i<SNUM;i++)
+ 174   4                                      {
+C51 COMPILER V9.54   MAIN                                                                  04/16/2016 18:40:38 PAGE 4   
+
+ 175   5                                              s[i][0]=0;                  
+ 176   5                                              s[i][1]=0;
+ 177   5                                              s[i][2]=0;
+ 178   5                                      }
+ 179   4                                      SendOneFrame(s);                
+*** WARNING C182 IN LINE 179 OF Main.c: pointer to different objects
+ 180   4                                      Delay100Ms(1);
+ 181   4                                      
+ 182   4                                      //9中颜色循环显示
+ 183   4                                      for(j=0;j<9;j++)
+ 184   4                                      {                                       
+ 185   5                                              //先让所有LED灭
+ 186   5                                              for(i=0;i<SNUM;i++)
+ 187   5                                              {
+ 188   6                                                      s[i][0]=0;                  
+ 189   6                                                      s[i][1]=0;
+ 190   6                                                      s[i][2]=0;
+ 191   6                                              }
+ 192   5                                              SendOneFrame(s);                
+*** WARNING C182 IN LINE 192 OF Main.c: pointer to different objects
+ 193   5                                              Delay100Ms(1);
+ 194   5                                              
+ 195   5                                              //循环修改数组数据，然后显示
+ 196   5                                              for(i=0;i<SNUM;i++)
+ 197   5                                              {
+ 198   6                                                      s[i][0]=colorArr[j][0];
+ 199   6                                                      s[i][1]=colorArr[j][1];
+ 200   6                                                      s[i][2]=colorArr[j][2];
+ 201   6                              
+ 202   6                                                      SendOneFrame(s);
+*** WARNING C182 IN LINE 202 OF Main.c: pointer to different objects
+ 203   6                                                      Delay100Ms(1);
+ 204   6                                                      
+ 205   6                                                      //每显示一次，检查是否模式mode已改变，如果改变了则退出
+ 206   6                                                      if(mode!=3)
+ 207   6                                                      {
+ 208   7                                                              break;
+ 209   7                                                      }
+ 210   6                                              }
+ 211   5                                              //每显示一次，检查是否模式mode已改变，如果改变了则退出
+ 212   5                                              if(mode!=3)
+ 213   5                                              {
+ 214   6                                                      break;
+ 215   6                                              }
+ 216   5                                      }
+ 217   4                                      //本模式执行完，跳出
+ 218   4                                      break;
+ 219   4                              }
+ 220   3                              //模式4：底色加弱拖尾
+ 221   3                              case 4:
+ 222   3                              {
+ 223   4                                      //计算拖尾
+ 224   4                                      for(j=0;j<5;j++)
+ 225   4                                      {                               
+ 226   5                                              tail[j][0]=colorArr[8-color][0]>>cut[j];
+ 227   5                                              tail[j][1]=colorArr[8-color][1]>>cut[j];
+ 228   5                                              tail[j][2]=colorArr[8-color][2]>>cut[j];
+ 229   5                                      }
+ 230   4                                      
+ 231   4                                      for(j=0;j<SNUM+5;j++)
+ 232   4                                      {
+ 233   5                                              //上底色
+C51 COMPILER V9.54   MAIN                                                                  04/16/2016 18:40:38 PAGE 5   
+
+ 234   5                                              for(i=0;i<SNUM;i++)
+ 235   5                                              {
+ 236   6                                                      s[i][0]=colorArr[color][0];
+ 237   6                                                      s[i][1]=colorArr[color][1];
+ 238   6                                                      s[i][2]=colorArr[color][2];
+ 239   6                                              }
+ 240   5                                              //修改数值
+ 241   5                                              for(i=j,k=0;i>0&&k<5;i--,k++)
+ 242   5                                              {
+ 243   6                                                      if(i<=SNUM)
+ 244   6                                                      {
+ 245   7                                                              s[i-1][0]=(colorArr[color][0]>>cut2[k])+tail[k][0];
+ 246   7                                                              s[i-1][1]=(colorArr[color][1]>>cut2[k])+tail[k][1];
+ 247   7                                                              s[i-1][2]=(colorArr[color][2]>>cut2[k])+tail[k][2];
+ 248   7                                                      }                                       
+ 249   6                                              }
+ 250   5                                              SendOneFrame(s);                  
+*** WARNING C182 IN LINE 250 OF Main.c: pointer to different objects
+ 251   5                                              DelayMs(50);
+ 252   5                                              //每显示一次，检查是否模式mode已改变，如果改变了则退出
+ 253   5                                              if(mode!=4)
+ 254   5                                              {
+ 255   6                                                      break;
+ 256   6                                              }
+ 257   5                                      }
+ 258   4                                      break;
+ 259   4                              }
+ 260   3                              //模式5：底色加流水
+ 261   3                              case 5:
+ 262   3                              {
+ 263   4                                      //计算拖尾
+ 264   4                                      for(j=0;j<5;j++)
+ 265   4                                      {                               
+ 266   5                                              tail[j][0]=colorArr[8-color][0]>>cut[j];
+ 267   5                                              tail[j][1]=colorArr[8-color][1]>>cut[j];
+ 268   5                                              tail[j][2]=colorArr[8-color][2]>>cut[j];
+ 269   5                                      }
+ 270   4                                      
+ 271   4                                      for(j=0;j<SNUM+5;j++)
+ 272   4                                      {
+ 273   5                                              //上底色
+ 274   5                                              for(i=0;i<SNUM;i++)
+ 275   5                                              {
+ 276   6                                                      s[i][0]=colorArr[color][0];
+ 277   6                                                      s[i][1]=colorArr[color][1];
+ 278   6                                                      s[i][2]=colorArr[color][2];
+ 279   6                                              }
+ 280   5                                              //修改数值
+ 281   5                                              for(i=j,k=0;i>0&&k<5;i--,k++)
+ 282   5                                              {
+ 283   6                                                      if(i<=SNUM)
+ 284   6                                                      {
+ 285   7                                                              s[i-1][0]=tail[k][0];
+ 286   7                                                              s[i-1][1]=tail[k][1];
+ 287   7                                                              s[i-1][2]=tail[k][2];
+ 288   7                                                      }                                       
+ 289   6                                              }
+ 290   5                                              SendOneFrame(s);                  
+*** WARNING C182 IN LINE 290 OF Main.c: pointer to different objects
+ 291   5                                              DelayMs(50);
+ 292   5                                              //每显示一次，检查是否模式mode已改变，如果改变了则退出
+ 293   5                                              if(mode!=5)
+C51 COMPILER V9.54   MAIN                                                                  04/16/2016 18:40:38 PAGE 6   
+
+ 294   5                                              {
+ 295   6                                                      break;
+ 296   6                                              }
+ 297   5                                      }
+ 298   4                                      break;
+ 299   4                              }
+ 300   3                              //默认模式：让所有LED灭
+ 301   3                              default:
+ 302   3                              {
+ 303   4                                      //上电让所有LED灭掉
+ 304   4                                      for(i=0;i<SNUM;i++)
+ 305   4                                      {
+ 306   5                                              s[i][0]=0;                    //修改数组中的数据
+ 307   5                                              s[i][1]=0;
+ 308   5                                              s[i][2]=0;
+ 309   5                                      }
+ 310   4                                      SendOneFrame(s);                  //显示数组中的数据
+*** WARNING C182 IN LINE 310 OF Main.c: pointer to different objects
+ 311   4                                      Delay100Ms(1);
+ 312   4                                      break;
+ 313   4                              }
+ 314   3                      }
+ 315   2              }
+ 316   1      }
+ 317          
+ 318          //-------------------------------------------------------------------------------
+ 319          //子程序名称:System_Init(void)
+ 320          //功能：端口初始化，使能中断
+ 321          //-------------------------------------------------------------------------------
+ 322          void System_Init(void)
+ 323          {
+ 324   1              BTN1=1;
+ 325   1              BTN2=1;
+ 326   1      
+ 327   1              //使能INT0中断
+ 328   1              INT0 = 1;
+ 329   1          IT0 = 1;                    //设置INT0的中断类型 (1:仅下降沿 0:上升沿和下降沿)
+ 330   1          EX0 = 1;                    //使能INT0中断
+ 331   1              
+ 332   1              //使能INT1中断
+ 333   1              INT1 = 1;
+ 334   1          IT1 = 1;                    //设置INT1的中断类型 (1:仅下降沿 0:上升沿和下降沿)
+ 335   1          EX1 = 1;                    //使能INT1中断
+ 336   1      }
+ 337          /**************************************中断服务程序*********************************/
+ 338          //按键1中断入口:模式切换
+ 339          void Btn1Int() interrupt 0          
+ 340          {
+ 341   1              //进来先关中断
+ 342   1              EA = 0;
+ 343   1              INT_CLKO &= 0xEF;           
+ 344   1              INT_CLKO &= 0xDF;  
+ 345   1              
+ 346   1              //延时一段时间
+ 347   1              DelayMs(40);
+ 348   1              
+ 349   1              mode++;
+ 350   1              if(mode==6)
+ 351   1              {
+ 352   2                      mode=0;
+ 353   2              }
+ 354   1              //走时开中断
+C51 COMPILER V9.54   MAIN                                                                  04/16/2016 18:40:38 PAGE 7   
+
+ 355   1              EA = 1;
+ 356   1              INT_CLKO |= 0x10;              
+ 357   1              INT_CLKO |= 0x20;                               
+ 358   1      }
+ 359          //按键2中断入口:控制颜色切换
+ 360          void Btn2Int() interrupt 2        
+ 361          {
+ 362   1              //进来先关中断
+ 363   1              EA = 0;
+ 364   1              INT_CLKO &= 0xEF;           
+ 365   1              INT_CLKO &= 0xDF;  
+ 366   1              
+ 367   1              //延时一段时间
+ 368   1              DelayMs(40);
+ 369   1              
+ 370   1              color++;
+ 371   1              if(color==9)
+ 372   1              {
+ 373   2                      color=0;
+ 374   2              }
+ 375   1      
+ 376   1              //走时开中断
+ 377   1              EA = 1;
+ 378   1              INT_CLKO |= 0x10;              
+ 379   1              INT_CLKO |= 0x20;               
+ 380   1      }
+ 381          
+ 382          
+ 383          
+ 384          /************************结束*******************************************************/
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1997    ----
+   CONSTANT SIZE    =     37    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     65       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  11 WARNING(S),  0 ERROR(S)

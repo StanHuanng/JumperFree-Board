@@ -1,0 +1,33 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Project:</h2>
+C:\Users\XT\Desktop\带单片机8位全彩流水灯程序模板\带单片机8位全彩流水灯程序模板.uvproj
+Project File Date:  01/27/2016
+
+<h2>Output:</h2>
+Build target 'STC15W204S'
+assembling STARTUP.A51...
+compiling Main.c...
+MAIN.C(68): warning C182: pointer to different objects
+MAIN.C(89): warning C182: pointer to different objects
+MAIN.C(99): warning C182: pointer to different objects
+MAIN.C(121): warning C182: pointer to different objects
+MAIN.C(133): warning C182: pointer to different objects
+MAIN.C(166): warning C182: pointer to different objects
+MAIN.C(48): warning C280: 'j': unreferenced local variable
+compiling ws2812.c...
+compiling Delay.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?IO_INIT?WS2812
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SENDSAMECOLOR?WS2812
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SENDONEFRAMEFROM?WS2812
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SENDONEFRAMESINCE?WS2812
+Program Size: data=83.0 xdata=0 code=1636
+creating hex file from "带单片机8位全彩流水灯程序模板"...
+"带单片机8位全彩流水灯程序模板" - 0 Error(s), 11 Warning(s).

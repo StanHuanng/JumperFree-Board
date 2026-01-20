@@ -1,0 +1,362 @@
+C51 COMPILER V9.01   PROJECT                                                               03/21/2017 11:06:36 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE PROJECT
+OBJECT MODULE PLACED IN Project.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE Project.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1           /********************************************************************
+   2          
+   3          功    能： 单片机STC15F104E和WS2811控制LED灯珠变化并带有掉电保持的功
+   4                     能（内部EEPROM）。三个按键作用：Mode为模式选择，每按一次会
+   5                             转换为另一种样式显示，并保持此样式一直循环，当按下Sel键时所
+   6                             有的样式循环显示，Speed为速度调节（共八级速度）。显示样式有
+   7                             ：整体七彩跳变，七彩渐变，流水，流星，单点变化，后向前流水。
+   8          创 建 者： 
+   9          创建日期：2012年 8月
+  10          更新日期：2012年11月  (更新为段显示，每段50点，整体变化不做更改，工作于770K)。
+  11          版    本：
+  12          
+  13          ********************************************************************/
+  14          #include<IAP15F105W.h>
+  15          #include<intrins.h>                                       
+  16          typedef unsigned char uchar;
+  17          typedef unsigned int  uint;
+  18          
+  19          
+  20          #define CMD_IDLE      0                //Stand-By
+  21          #define CMD_READ      1                //Byte-Read
+  22          #define CMD_PROGRAM   2                //Byte-Program
+  23          #define CMD_ERASE     3                //Sector-Erase
+  24          /*Define ISP/IAP/EEPROM operation const for IAP_CONTR*/
+  25          #define ENABLE_IAP      0x82             //if SYSCLK<20MHz
+  26          
+  27          #define IAP_ADDRESS  0x1200                         //EEPROM开始地址
+  28          
+  29          #define NUMBER        500                            //级联个数
+  30          
+  31          sbit  DAI =P3^4;                                    //信号端口
+  32          
+  33          
+  34          uint   speed=10;                                    //速度                      
+  35          uchar  T1_Flag,DMX512_Data_Byte;
+  36          
+  37          
+  38          uchar T_R[5]={50,0,0,50,0};
+  39          uchar T_G[5]={0,50,0,50,0};
+  40          uchar T_B[5]={0,0,50,50,0};
+  41          
+  42          //函数申明
+  43          
+  44          //void send_24bits(uchar dat1,uchar dat2,uchar dat3);
+  45          //void rst();
+  46          void delay1();
+  47          void time0_init();      
+  48          
+  49          void send_2821_star();
+  50          void send_2821_byte(uchar cod8);
+  51          void send_2821_24bits(uchar dat1,uchar dat2,uchar dat3);
+  52          void send_2821_end();
+  53          void Send_Data(uchar dat);
+  54          
+  55          /******************************************
+C51 COMPILER V9.01   PROJECT                                                               03/21/2017 11:06:36 PAGE 2   
+
+  56          函 数 名：void delay(uint z)
+  57          
+  58          功    能：延时函数
+  59          ******************************************/
+  60          void Delay(uint x)
+  61          {
+  62   1              uint y;
+  63   1              for(;x>0;x--)
+  64   1              {
+  65   2                      for(y=0;y<6000;y++); 
+  66   2              }
+  67   1      }
+  68          
+  69          /******************************************
+  70          函数名: void Delay4us()  
+  71                  void Delay88us()
+  72          
+  73          功  能：向2821发送数据电平位延时
+  74          ********************************************/
+  75          void Delay4us()         //@33.1776MHz
+  76          {
+  77   1              unsigned char i;
+  78   1      
+  79   1              _nop_();
+  80   1              _nop_();
+  81   1              _nop_();
+  82   1              i = 23;//29//24//23//22
+  83   1              while (--i);
+  84   1      }
+  85          void Delay_4us()                //@33.1776MHz
+  86          {
+  87   1              unsigned char i;
+  88   1      
+  89   1              _nop_();
+  90   1              _nop_();
+  91   1              _nop_();
+  92   1              i = 28;//29//24//23//22
+  93   1              while (--i);
+  94   1      }
+  95          void Delay88us()                //@33.1776MHz
+  96          {
+  97   1              unsigned char i,j;
+  98   1      
+  99   1              _nop_();
+ 100   1              _nop_();
+ 101   1              i = 3;
+ 102   1              j = 211;
+ 103   1              do
+ 104   1              {
+ 105   2                      while (--j);
+ 106   2              } while (--i);
+ 107   1      }
+ 108          /*******************************************************
+ 109          函数名: void send_2821_star()
+ 110          功  能：向2821发送DMX512格式数据包开始包头
+ 111          *******************************************************/
+ 112          void send_2821_star()
+ 113          {
+ 114   1        DAI=1;
+ 115   1              Delay4us();
+ 116   1              DAI=0;
+ 117   1        Delay88us();  //88us BREAK
+C51 COMPILER V9.01   PROJECT                                                               03/21/2017 11:06:36 PAGE 3   
+
+ 118   1        
+ 119   1        DAI=1;
+ 120   1        Delay4us();
+ 121   1        Delay4us();   //8us MAB
+ 122   1       
+ 123   1      }
+ 124          /************************************************************
+ 125          函数名: void send_2821_byte(uchar cod8)
+ 126          功  能: 向2821发送一个字节数据
+ 127          *************************************************************/
+ 128          void send_2821_byte(uchar dat)
+ 129          {
+ 130   1              uint i;
+ 131   1              DAI=0;
+ 132   1              Delay_4us();
+ 133   1              for(i=0;i<8;i++)
+ 134   1              {
+ 135   2                      if(dat & 0x01)
+ 136   2                      {
+ 137   3                              DAI=1;
+ 138   3                      }
+ 139   2                      else
+ 140   2                      {
+ 141   3                              DAI=0;
+ 142   3                      }
+ 143   2                      Delay4us();
+ 144   2                      dat=dat>>1;
+ 145   2              }
+ 146   1              DAI=1;
+ 147   1              //for(i=0;i<1;i++)
+ 148   1              Delay_4us();
+ 149   1              Delay_4us();
+ 150   1      }
+ 151          /***************************************************************
+ 152          函数名：void send_2821_24bits(uchar dat1,uchar dat2,uchar dat3)
+ 153          功  能：向2821发送数据帧，一次发送三个通道
+ 154          ****************************************************************/
+ 155          void send_2821_24bits(uchar datt1,uchar datt2,uchar datt3)
+ 156          {
+ 157   1              send_2821_byte(datt1);
+ 158   1              send_2821_byte(datt2);
+ 159   1              send_2821_byte(datt3);
+ 160   1      }
+ 161          /****************************************************************
+ 162          函数名: void send_2821_end()
+ 163          功  能：向2821发送DMX512格式包结束，并使数据生效
+ 164          ****************************************************************/
+ 165          void send_2821_end()
+ 166          {
+ 167   1              DAI=1;
+ 168   1       }
+ 169          
+ 170          /******************************************
+ 171          函 数 名：void Allbump()
+ 172          功    能：整体七彩跳变
+ 173          ******************************************/
+ 174          /*void Allbump()
+ 175          {
+ 176            uint i,Count=0;
+ 177                  uchar h=0;
+ 178                  while(1)
+ 179                  { 
+C51 COMPILER V9.01   PROJECT                                                               03/21/2017 11:06:36 PAGE 4   
+
+ 180                          
+ 181                          send_2821_star();
+ 182                          Send_Data(0);  //0
+ 183                          
+ 184                          Send_Data(0);  //1
+ 185                          Send_Data(0);  //2
+ 186                          Send_Data(0);  //3
+ 187                          
+ 188                          Send_Data(T_R[h]); //4
+ 189                          Send_Data(T_G[h]); //5
+ 190                          Send_Data(T_B[h]); //6
+ 191                          
+ 192                          for(i=0;i<300;i++)
+ 193                          {
+ 194                                  Send_Data(0); //4
+ 195                                  Send_Data(0); //5
+ 196                                  Send_Data(0); //6
+ 197                          }
+ 198                          
+ 199                          send_2821_end();        
+ 200                          Count++;
+ 201                          if(Count>15)
+ 202                          {
+ 203                                  Count=0;
+ 204                                  h++;
+ 205                                  if(h>3)
+ 206                                  {
+ 207                                          h=0;
+ 208                                  }
+ 209                          }
+ 210                  }               
+ 211          }
+ 212          */
+ 213          /******************************************
+ 214          函 数 名：void time0_init()
+ 215          功    能：定时器初始化
+ 216          ******************************************/
+ 217          void time0_init()
+ 218          {
+ 219   1              TMOD = 0x00;            //16位自动重装  
+ 220   1              AUXR = 0x80;            //1T模式                
+ 221   1              
+ 222   1              TL0 = 0x7B;     
+ 223   1              TH0 = 0xFF;          //1.11518us        (900k速度)              (TL0=D2 ;TH0=FF)750K  (TL0=7B ;TH0=FF)750K 
+ 224   1              
+ 225   1              TR0=0;               //开定时器0        
+ 226   1              ET0=1;
+ 227   1              EA=1;
+ 228   1              PT0=1;
+ 229   1      }       
+ 230          void Flowing()
+ 231          {
+ 232   1              uint i;
+ 233   1              uchar Stack;
+ 234   1              Stack=0;
+ 235   1              while(1)
+ 236   1              {
+ 237   2                      send_2821_star();
+ 238   2                      send_2821_byte(0);
+ 239   2                      for(i=0;i<Stack;i++)
+ 240   2                      {
+ 241   3                              send_2821_24bits(255,0,255);
+C51 COMPILER V9.01   PROJECT                                                               03/21/2017 11:06:36 PAGE 5   
+
+ 242   3                      }
+ 243   2                      for(i=0;i<32-Stack;i++)
+ 244   2                      {
+ 245   3                              send_2821_24bits(0,0,0);
+ 246   3                      }
+ 247   2                      send_2821_end();
+ 248   2                      Delay(100);
+ 249   2                      Stack++;
+ 250   2                      if(Stack>32)
+ 251   2                      {
+ 252   3                              break;
+ 253   3                      }
+ 254   2              }
+ 255   1      }
+ 256          /******************************************
+ 257          函 数 名：
+ 258          功    能：主函数入口
+ 259          ******************************************/
+ 260          void main()
+ 261          {   
+ 262   1              P3M0=0x04;//P3M0=0x00;
+ 263   1              P3M1=0xFB;
+ 264   1              time0_init();
+ 265   1              T1_Flag=1;
+ 266   1              while(1)
+ 267   1              {               
+ 268   2                      Flowing();              
+ 269   2                      //Allbump();
+ 270   2                      //send_2821_24bits(255,255,255);
+ 271   2                      //Send_24bits(255,255,255);
+ 272   2              }               
+ 273   1      } 
+ 274          
+ 275          /************************************************************
+ 276          函数名: void send_2821_byte(uchar cod8)
+ 277          功  能: 向2821发送一个字节数据
+ 278          *************************************************************/
+ 279          /*void send_2821_byte(uchar cod8)
+ 280          {       
+ 281                  ET1=0;
+ 282                  T1_Flag=1;
+ 283            DMX512_Data_Byte=cod8;        
+ 284                  DAI=0;
+ 285                  TR0=1;  
+ 286            while(T1_Flag!=0);    
+ 287            ET1=1;                
+ 288          }
+ 289          */
+ 290          
+ 291          
+ 292          /***************************************************************
+ 293          函数名：void send_2821_24bits(uchar dat1,uchar dat2,uchar dat3)
+ 294          功  能：向2821发送数据帧，一次发送三个通道
+ 295          ****************************************************************/
+ 296          
+ 297          /*void send_2821_24bits(uchar dat1,uchar dat2,uchar dat3)
+ 298          {
+ 299            
+ 300            send_2821_byte(dat1);
+ 301            
+ 302            send_2821_byte(dat2);
+ 303           
+C51 COMPILER V9.01   PROJECT                                                               03/21/2017 11:06:36 PAGE 6   
+
+ 304            send_2821_byte(dat3);  
+ 305          }
+ 306          */
+ 307          
+ 308          void  timer0()  interrupt 1 using 1
+ 309          {               
+ 310   1        if(T1_Flag<=8)
+ 311   1              {
+ 312   2                      if(DMX512_Data_Byte&0x01)
+ 313   2                              {DAI=1;}
+ 314   2                else 
+ 315   2                              {DAI=0;}                
+ 316   2                      DMX512_Data_Byte=DMX512_Data_Byte>>1;
+ 317   2              }
+ 318   1        
+ 319   1              else
+ 320   1                      DAI=1;
+ 321   1        T1_Flag++;            
+ 322   1              if(T1_Flag==11) 
+ 323   1              {
+ 324   2                      TR0=0;
+ 325   2                      T1_Flag=0;
+ 326   2        }
+ 327   1              
+ 328   1        TF0=0;               //2us一位数据            
+ 329   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    319    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     19    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
