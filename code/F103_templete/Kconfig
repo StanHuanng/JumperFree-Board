@@ -1,9 +1,7 @@
 mainmenu "RT-Thread Configuration"
 
 BSP_DIR := .
-
-RTT_DIR := ../../..
-
+RTT_DIR := rt-thread
 PKGS_DIR := packages
 
 config SOC_STM32F103C8
@@ -13,9 +11,9 @@ config SOC_STM32F103C8
     select RT_USING_USER_MAIN
     default y
 
-source "$(RTT_DIR)/Kconfig"
-osource "$PKGS_DIR/Kconfig"
-rsource "../libraries/Kconfig"
+source "rt-thread/Kconfig"
+osource "packages/Kconfig"
+rsource "libraries/Kconfig"
 
 if !RT_USING_NANO
 rsource "board/Kconfig"

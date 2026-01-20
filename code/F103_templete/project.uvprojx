@@ -338,9 +338,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>STM32F103xB, RT_USING_LIBC, RT_USING_ARMLIBC, __STDC_LIMIT_MACROS, __CLK_TCK=RT_TICK_PER_SECOND, __RTTHREAD__, USE_HAL_DRIVER</Define>
+              <Define>STM32F103xB, RT_USING_LIBC, __RTTHREAD__, USE_HAL_DRIVER, __CLK_TCK=RT_TICK_PER_SECOND, __STDC_LIMIT_MACROS, RT_USING_ARMLIBC</Define>
               <Undefine></Undefine>
-              <IncludePath>packages\stm32f1_cmsis_driver-latest\Include;board;rt-thread\components\drivers\include;rt-thread\components\finsh;rt-thread\components\libc\compilers\common\extension;applications;board\CubeMX_Config\Inc;rt-thread\components\drivers\phy;rt-thread\libcpu\arm\common;rt-thread\libcpu\arm\cortex-m3;rt-thread\components\libc\posix\io\epoll;rt-thread\components\libc\posix\io\poll;packages\stm32f1_hal_driver-latest\Inc;rt-thread\components\drivers\include;rt-thread\components\drivers\smp_call;packages\CMSIS-Core-latest\Include;rt-thread\include;rt-thread\components\drivers\include;libraries\HAL_Drivers\drivers\config;rt-thread\components\libc\compilers\common\extension\fcntl\octal;rt-thread\components\drivers\include;rt-thread\components\drivers\include;rt-thread\components\libc\compilers\common\include;libraries\HAL_Drivers;.;libraries\HAL_Drivers\drivers;rt-thread\components\libc\posix\ipc;rt-thread\components\net\utest;rt-thread\components\libc\posix\io\eventfd</IncludePath>
+              <IncludePath>rt-thread\components\libc\compilers\common\extension\fcntl\octal;libraries\HAL_Drivers\drivers;board\CubeMX_Config\Inc;rt-thread\components\libc\posix\io\eventfd;rt-thread\components\drivers\include;rt-thread\components\libc\posix\ipc;libraries\HAL_Drivers\drivers\config;rt-thread\components\libc\posix\io\epoll;packages\stm32f1_hal_driver-latest\Inc;rt-thread\components\drivers\include;packages\stm32f1_cmsis_driver-latest\Include;board;.;rt-thread\components\libc\posix\io\poll;libraries\HAL_Drivers;rt-thread\components\libc\compilers\common\extension;applications;rt-thread\components\drivers\include;rt-thread\components\drivers\smp_call;rt-thread\libcpu\arm\common;rt-thread\components\libc\compilers\common\include;rt-thread\components\drivers\include;rt-thread\components\finsh;rt-thread\include;rt-thread\components\net\utest;packages\CMSIS-Core-latest\Include;rt-thread\components\drivers\phy;rt-thread\components\drivers\include;rt-thread\libcpu\arm\cortex-m3</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1147,14 +1147,14 @@
           <GroupName>Finsh</GroupName>
           <Files>
             <File>
+              <FileName>msh.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>rt-thread\components\finsh\msh.c</FilePath>
+            </File>
+            <File>
               <FileName>cmd.c</FileName>
               <FileType>1</FileType>
               <FilePath>rt-thread\components\finsh\cmd.c</FilePath>
-            </File>
-            <File>
-              <FileName>msh_parse.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>rt-thread\components\finsh\msh_parse.c</FilePath>
             </File>
             <File>
               <FileName>shell.c</FileName>
@@ -1162,9 +1162,9 @@
               <FilePath>rt-thread\components\finsh\shell.c</FilePath>
             </File>
             <File>
-              <FileName>msh.c</FileName>
+              <FileName>msh_parse.c</FileName>
               <FileType>1</FileType>
-              <FilePath>rt-thread\components\finsh\msh.c</FilePath>
+              <FilePath>rt-thread\components\finsh\msh_parse.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2022,14 +2022,14 @@
               <FilePath>rt-thread\src\klibc\kstring.c</FilePath>
             </File>
             <File>
+              <FileName>kerrno.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>rt-thread\src\klibc\kerrno.c</FilePath>
+            </File>
+            <File>
               <FileName>kstdio.c</FileName>
               <FileType>1</FileType>
               <FilePath>rt-thread\src\klibc\kstdio.c</FilePath>
-            </File>
-            <File>
-              <FileName>rt_vsnprintf_tiny.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>rt-thread\src\klibc\rt_vsnprintf_tiny.c</FilePath>
             </File>
             <File>
               <FileName>rt_vsscanf.c</FileName>
@@ -2037,9 +2037,9 @@
               <FilePath>rt-thread\src\klibc\rt_vsscanf.c</FilePath>
             </File>
             <File>
-              <FileName>kerrno.c</FileName>
+              <FileName>rt_vsnprintf_tiny.c</FileName>
               <FileType>1</FileType>
-              <FilePath>rt-thread\src\klibc\kerrno.c</FilePath>
+              <FilePath>rt-thread\src\klibc\rt_vsnprintf_tiny.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2092,21 +2092,6 @@
           <GroupName>STM32F1-HAL</GroupName>
           <Files>
             <File>
-              <FileName>stm32f1xx_hal_crc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>packages\stm32f1_hal_driver-latest\Src\stm32f1xx_hal_crc.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f1xx_hal.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>packages\stm32f1_hal_driver-latest\Src\stm32f1xx_hal.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f1xx_hal_cortex.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>packages\stm32f1_hal_driver-latest\Src\stm32f1xx_hal_cortex.c</FilePath>
-            </File>
-            <File>
               <FileName>stm32f1xx_hal_rcc_ex.c</FileName>
               <FileType>1</FileType>
               <FilePath>packages\stm32f1_hal_driver-latest\Src\stm32f1xx_hal_rcc_ex.c</FilePath>
@@ -2117,19 +2102,9 @@
               <FilePath>packages\stm32f1_hal_driver-latest\Src\stm32f1xx_hal_cec.c</FilePath>
             </File>
             <File>
-              <FileName>stm32f1xx_hal_uart.c</FileName>
+              <FileName>stm32f1xx_hal_crc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>packages\stm32f1_hal_driver-latest\Src\stm32f1xx_hal_uart.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f1xx_hal_gpio_ex.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>packages\stm32f1_hal_driver-latest\Src\stm32f1xx_hal_gpio_ex.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f1xx_hal_gpio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>packages\stm32f1_hal_driver-latest\Src\stm32f1xx_hal_gpio.c</FilePath>
+              <FilePath>packages\stm32f1_hal_driver-latest\Src\stm32f1xx_hal_crc.c</FilePath>
             </File>
             <File>
               <FileName>stm32f1xx_hal_rcc.c</FileName>
@@ -2137,9 +2112,14 @@
               <FilePath>packages\stm32f1_hal_driver-latest\Src\stm32f1xx_hal_rcc.c</FilePath>
             </File>
             <File>
-              <FileName>stm32f1xx_hal_pwr.c</FileName>
+              <FileName>stm32f1xx_hal_uart.c</FileName>
               <FileType>1</FileType>
-              <FilePath>packages\stm32f1_hal_driver-latest\Src\stm32f1xx_hal_pwr.c</FilePath>
+              <FilePath>packages\stm32f1_hal_driver-latest\Src\stm32f1xx_hal_uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f1xx_hal_cortex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>packages\stm32f1_hal_driver-latest\Src\stm32f1xx_hal_cortex.c</FilePath>
             </File>
             <File>
               <FileName>stm32f1xx_hal_usart.c</FileName>
@@ -2147,9 +2127,29 @@
               <FilePath>packages\stm32f1_hal_driver-latest\Src\stm32f1xx_hal_usart.c</FilePath>
             </File>
             <File>
+              <FileName>stm32f1xx_hal_gpio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>packages\stm32f1_hal_driver-latest\Src\stm32f1xx_hal_gpio.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f1xx_hal_gpio_ex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>packages\stm32f1_hal_driver-latest\Src\stm32f1xx_hal_gpio_ex.c</FilePath>
+            </File>
+            <File>
               <FileName>stm32f1xx_hal_dma.c</FileName>
               <FileType>1</FileType>
               <FilePath>packages\stm32f1_hal_driver-latest\Src\stm32f1xx_hal_dma.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f1xx_hal.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>packages\stm32f1_hal_driver-latest\Src\stm32f1xx_hal.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f1xx_hal_pwr.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>packages\stm32f1_hal_driver-latest\Src\stm32f1xx_hal_pwr.c</FilePath>
             </File>
           </Files>
         </Group>
