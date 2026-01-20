@@ -2,7 +2,7 @@ import os
 
 # toolchains options
 ARCH='arm'
-CPU='cortex-m0'
+CPU='cortex-m3'
 CROSS_TOOL='gcc'
 
 # bsp lib config
@@ -43,7 +43,7 @@ if PLATFORM == 'gcc':
     OBJDUMP = PREFIX + 'objdump'
     OBJCPY = PREFIX + 'objcopy'
 
-    DEVICE = ' -mcpu=cortex-m0 -mthumb -ffunction-sections -fdata-sections'
+    DEVICE = ' -mcpu=cortex-m3 -mthumb -ffunction-sections -fdata-sections'
     CFLAGS = DEVICE + ' -Dgcc'
     AFLAGS = ' -c' + DEVICE + ' -x assembler-with-cpp -Wa,-mimplicit-it=thumb '
     LFLAGS = DEVICE + ' -Wl,--gc-sections,-Map=rt-thread.map,-cref,-u,Reset_Handler -T board/linker_scripts/link.lds'
@@ -52,15 +52,16 @@ if PLATFORM == 'gcc':
     LPATH = ''
 
     if BUILD == 'debug':
-        CFLAGS += ' -O0 -gdwarf-2 -g'
+        CFLAGS += ' -O2 -gdwarf-2 -g'
         AFLAGS += ' -gdwarf-2'
     else:
         CFLAGS += ' -O2'
 
-    CXXFLAGS = CFLAGS
+    CXXFLAGS = CFLAGS 
 
     POST_ACTION = OBJCPY + ' -O binary $TARGET rtthread.bin\n' + SIZE + ' $TARGET \n'
-
+    POST_ACTION += OBJCPY + ' -O ihex $TARGET rt-thread.hex\n'
+    
 elif PLATFORM == 'armcc':
     # toolchains
     CC = 'armcc'
@@ -70,7 +71,7 @@ elif PLATFORM == 'armcc':
     LINK = 'armlink'
     TARGET_EXT = 'axf'
 
-    DEVICE = ' --cpu Cortex-M0 '
+    DEVICE = ' --cpu Cortex-M3 '
     CFLAGS = '-c ' + DEVICE + ' --apcs=interwork --c99'
     AFLAGS = DEVICE + ' --apcs=interwork '
     LFLAGS = DEVICE + ' --scatter "board\linker_scripts\link.sct" --info sizes --info totals --info unused --info veneers --list rt-thread.map --strict'
@@ -83,12 +84,13 @@ elif PLATFORM == 'armcc':
     EXEC_PATH += '/ARM/ARMCC/bin/'
 
     if BUILD == 'debug':
-        CFLAGS += ' -g -O0'
+        CFLAGS += ' -g -O2'
         AFLAGS += ' -g'
     else:
         CFLAGS += ' -O2'
 
-    CXXFLAGS = CFLAGS
+
+    CXXFLAGS = CFLAGS 
     CFLAGS += ' -std=c99'
 
     POST_ACTION = 'fromelf --bin $TARGET --output rtthread.bin \nfromelf -z $TARGET'
@@ -102,9 +104,9 @@ elif PLATFORM == 'armclang':
     LINK = 'armlink'
     TARGET_EXT = 'axf'
 
-    DEVICE = ' --cpu Cortex-M0 '
-    CFLAGS = ' --target=arm-arm-none-eabi -mcpu=cortex-m0 '
-    CFLAGS += ' -mcpu=cortex-m0 '
+    DEVICE = ' --cpu Cortex-M3 '
+    CFLAGS = ' --target=arm-arm-none-eabi -mcpu=cortex-m3 '
+    CFLAGS += ' -mcpu=cortex-m3 '
     CFLAGS += ' -c -fno-rtti -funsigned-char -fshort-enums -fshort-wchar '
     CFLAGS += ' -gdwarf-3 -ffunction-sections '
     AFLAGS = DEVICE + ' --apcs=interwork '
@@ -148,7 +150,7 @@ elif PLATFORM == 'iccarm':
     CFLAGS += ' --no_clustering'
     CFLAGS += ' --no_scheduling'
     CFLAGS += ' --endian=little'
-    CFLAGS += ' --cpu=Cortex-M0'
+    CFLAGS += ' --cpu=Cortex-M3'
     CFLAGS += ' -e'
     CFLAGS += ' --fpu=None'
     CFLAGS += ' --dlib_config "' + EXEC_PATH + '/arm/INC/c/DLib_Config_Normal.h"'
@@ -158,13 +160,13 @@ elif PLATFORM == 'iccarm':
     AFLAGS += ' -s+'
     AFLAGS += ' -w+'
     AFLAGS += ' -r'
-    AFLAGS += ' --cpu Cortex-M0'
+    AFLAGS += ' --cpu Cortex-M3'
     AFLAGS += ' --fpu None'
     AFLAGS += ' -S'
 
     if BUILD == 'debug':
         CFLAGS += ' --debug'
-        CFLAGS += ' -On'
+        CFLAGS += ' -Oh'
     else:
         CFLAGS += ' -Oh'
 
@@ -172,7 +174,7 @@ elif PLATFORM == 'iccarm':
     LFLAGS += ' --entry __iar_program_start'
 
     CXXFLAGS = CFLAGS
-
+    
     EXEC_PATH = EXEC_PATH + '/arm/bin/'
     POST_ACTION = 'ielftool --bin $TARGET rtthread.bin'
 
@@ -182,4 +184,3 @@ def dist_handle(BSP_ROOT, dist_dir):
     sys.path.append(os.path.join(os.path.dirname(BSP_ROOT), 'tools'))
     from sdk_dist import dist_do_building
     dist_do_building(BSP_ROOT, dist_dir)
-

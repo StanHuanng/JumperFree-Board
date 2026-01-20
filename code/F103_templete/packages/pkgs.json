@@ -5,13 +5,13 @@
   "ver": "latest"
  },
  {
-  "name": "STM32F0_HAL_DRIVER",
-  "path": "/packages/peripherals/hal-sdk/stm32/stm32f0_hal_driver",
+  "name": "STM32F1_HAL_DRIVER",
+  "path": "/packages/peripherals/hal-sdk/stm32/stm32f1_hal_driver",
   "ver": "latest"
  },
  {
-  "name": "STM32F0_CMSIS_DRIVER",
-  "path": "/packages/peripherals/hal-sdk/stm32/stm32f0_cmsis_driver",
+  "name": "STM32F1_CMSIS_DRIVER",
+  "path": "/packages/peripherals/hal-sdk/stm32/stm32f1_cmsis_driver",
   "ver": "latest"
  }
 ]

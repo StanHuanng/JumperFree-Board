@@ -11,7 +11,7 @@
 #ifndef __BOARD_H__
 #define __BOARD_H__
 
-#include <stm32f0xx.h>
+#include <stm32f1xx.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -22,7 +22,7 @@ extern "C" {
 #define STM32_FLASH_END_ADDRESS      ((uint32_t)(STM32_FLASH_START_ADRESS + STM32_FLASH_SIZE))
 
 /* Internal SRAM memory size[Kbytes] <8-64>, Default: 64*/
-#define STM32_SRAM_SIZE      16
+#define STM32_SRAM_SIZE      20
 #define STM32_SRAM_END       (0x20000000 + STM32_SRAM_SIZE * 1024)
 
 #if defined(__ARMCC_VERSION)

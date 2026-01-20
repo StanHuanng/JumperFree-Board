@@ -8,13 +8,13 @@ cwd = GetCurrentDir()
 objs = []
 list = os.listdir(cwd)
 
-# STM32F030x6 || STM32F030x8 || STM32F031x6
-# STM32F038xx || STM32F042x6 || STM32F048xx
-# STM32F070x6 || STM32F051x8 || STM32F058xx
-# STM32F071xB || STM32F072xB || STM32F078xx
-# STM32F070xB || STM32F091xC || STM32F098xx || STM32F030xC
+# STM32F100xB || STM32F100xE || STM32F101x6
+# STM32F101xB || STM32F101xE || STM32F101xG
+# STM32F102x6 || STM32F102xB || STM32F103x6
+# STM32F103xB || STM32F103xE || STM32F103xG
+# STM32F105xC || STM32F107xC)
 # You can select chips from the list above
-env.Append(CPPDEFINES = ['STM32F072xB'])
+env.Append(CPPDEFINES = ['STM32F103xB'])
 
 for d in list:
     path = os.path.join(cwd, d)
