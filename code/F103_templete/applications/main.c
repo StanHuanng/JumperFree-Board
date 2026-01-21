@@ -1,34 +1,28 @@
-/*
- * Copyright (c) 2006-2021, RT-Thread Development Team
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Change Logs:
- * Date           Author       Notes
- * 2019-03-08     obito0       first version
- * 2023-12-03     Meco Man     support nano version
- */
-
-#include <board.h>
 #include <rtthread.h>
-#include <drv_gpio.h>
-#ifndef RT_USING_NANO
-#include <rtdevice.h>
-#endif /* RT_USING_NANO */
-
-/* defined the LED0 pin: PC13 */
-#define LED0_PIN    GET_PIN(C, 13)
+#include <board.h>
+#include "CH446Q.h"
 
 int main(void)
 {
-    /* set LED0 pin mode to output */
-    rt_pin_mode(LED0_PIN, PIN_MODE_OUTPUT);
+    /* 初始化 CH446Q 驱动 */
+    ch446q_init();
+
+	ch446q_reset_all();
+	
+    /* 示例：将 X0 连接到 Y0 */
+    ch446q_connect(0, 0);
+    rt_kprintf("Connected X0 to Y0\n");
+    rt_thread_mdelay(1000);
+
+    /* 示例：将 X3 连接到 Y2 */
+    ch446q_connect(3, 2);
+    rt_kprintf("Connected X3 to Y2\n");
+    rt_thread_mdelay(1000);
+
+
 
     while (1)
     {
-        rt_pin_write(LED0_PIN, PIN_HIGH);
-        rt_thread_mdelay(500);
-        rt_pin_write(LED0_PIN, PIN_LOW);
-        rt_thread_mdelay(500);
+        rt_thread_mdelay(1000);
     }
 }
