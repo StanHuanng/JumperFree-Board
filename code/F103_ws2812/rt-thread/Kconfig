@@ -1,0 +1,4 @@
+source "rt-thread/src/Kconfig"
+source "rt-thread/libcpu/Kconfig"
+source "rt-thread/components/Kconfig"
+

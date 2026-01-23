@@ -1,0 +1,65 @@
+# --- Python 缓存文件 ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# --- 忽略所有 template 相关的工程临时文件 ---
+template.uv*
+template.ew*
+*.uvguix.*        # 忽略所有 Keil 界面布局文件（个人配置）
+
+# --- 忽略 IAR 工程文件（自动生成）---
+*.ewp
+*.eww
+*.ewd
+
+# --- 自动生成的工程文件（由 scons --target=mdk5 重新生成） ---
+*.uvprojx
+*.uvoptx
+project.uvprojx
+project.uvoptx
+project.uvopt
+project.uvguix.*
+template.uvprojx
+template.uvoptx
+
+# --- 自动生成的配置文件 ---
+rtconfig.h
+
+# --- 编译中间产物 ---
+build/
+*.o
+*.obj
+*.d
+*.dep
+*.map
+*.elf
+*.bin
+*.hex
+*.axf
+*.htm
+*.lnp
+*.lst
+
+# --- 其他编译器/工具产生的目录 ---
+.ci/
+.settings/
+.project
+.cproject
+documents/        # 如果不需要上传文档，可以忽略
+figures/          # 忽略 BSP 自带的图表说明
+
+# --- 其他环境冗余 ---
+.vscode/
+DebugConfig/
+JLinkLog.txt
+JLinkSettings.ini
+.DS_Store
+
+# --- packages 目录配置 ---
+# 忽略包中的 .git 目录（防止子模块冲突）
+packages/*/.git/
+# 保留包的配置文件
+!packages/pkgs.json
+!packages/SConscript
