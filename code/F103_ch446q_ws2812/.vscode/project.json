@@ -1,0 +1,145 @@
+{
+    "RT-Thread": "F:\\MCU_Project\\JumperFree-Board\\code\\F103_ch446q_ws2812\\rt-thread",
+    "Groups": [
+        {
+            "name": "Applications",
+            "path": "applications",
+            "files": [
+                "applications\\ws2812.c",
+                "applications\\main.c",
+                "applications\\CH446Q.c",
+                "applications\\SConscript"
+            ]
+        },
+        {
+            "name": "Compiler",
+            "path": "rt-thread\\components\\libc\\compilers\\common",
+            "files": [
+                "rt-thread\\components\\libc\\compilers\\common\\cctype.c",
+                "rt-thread\\components\\libc\\compilers\\common\\cstdlib.c",
+                "rt-thread\\components\\libc\\compilers\\common\\cstring.c",
+                "rt-thread\\components\\libc\\compilers\\common\\ctime.c",
+                "rt-thread\\components\\libc\\compilers\\common\\cunistd.c",
+                "rt-thread\\components\\libc\\compilers\\common\\cwchar.c",
+                "rt-thread\\components\\libc\\compilers\\newlib\\syscalls.c",
+                "rt-thread\\components\\libc\\compilers\\common\\SConscript"
+            ]
+        },
+        {
+            "name": "DeviceDrivers",
+            "path": "rt-thread\\components\\drivers\\core",
+            "files": [
+                "rt-thread\\components\\drivers\\core\\device.c",
+                "rt-thread\\components\\drivers\\ipc\\completion_comm.c",
+                "rt-thread\\components\\drivers\\ipc\\completion_up.c",
+                "rt-thread\\components\\drivers\\ipc\\condvar.c",
+                "rt-thread\\components\\drivers\\ipc\\dataqueue.c",
+                "rt-thread\\components\\drivers\\ipc\\pipe.c",
+                "rt-thread\\components\\drivers\\ipc\\ringblk_buf.c",
+                "rt-thread\\components\\drivers\\ipc\\ringbuffer.c",
+                "rt-thread\\components\\drivers\\ipc\\waitqueue.c",
+                "rt-thread\\components\\drivers\\ipc\\workqueue.c",
+                "rt-thread\\components\\drivers\\pin\\dev_pin.c",
+                "rt-thread\\components\\drivers\\serial\\dev_serial.c",
+                "rt-thread\\components\\drivers\\core\\SConscript"
+            ]
+        },
+        {
+            "name": "Drivers",
+            "path": "board",
+            "files": [
+                "board\\CubeMX_Config\\Src\\stm32f1xx_hal_msp.c",
+                "board\\board.c",
+                "libraries\\HAL_Drivers\\drivers\\drv_gpio.c",
+                "libraries\\HAL_Drivers\\drivers\\drv_usart.c",
+                "libraries\\HAL_Drivers\\drv_common.c",
+                "board\\SConscript"
+            ]
+        },
+        {
+            "name": "Finsh",
+            "path": "rt-thread\\components\\finsh",
+            "files": [
+                "rt-thread\\components\\finsh\\msh.c",
+                "rt-thread\\components\\finsh\\cmd.c",
+                "rt-thread\\components\\finsh\\msh_parse.c",
+                "rt-thread\\components\\finsh\\shell.c",
+                "rt-thread\\components\\finsh\\SConscript"
+            ]
+        },
+        {
+            "name": "Kernel",
+            "path": ".",
+            "files": [
+                "rt-thread\\src\\clock.c",
+                "rt-thread\\src\\components.c",
+                "rt-thread\\src\\cpu_up.c",
+                "rt-thread\\src\\defunct.c",
+                "rt-thread\\src\\idle.c",
+                "rt-thread\\src\\ipc.c",
+                "rt-thread\\src\\irq.c",
+                "rt-thread\\src\\kservice.c",
+                "rt-thread\\src\\memheap.c",
+                "rt-thread\\src\\mempool.c",
+                "rt-thread\\src\\object.c",
+                "rt-thread\\src\\scheduler_comm.c",
+                "rt-thread\\src\\scheduler_up.c",
+                "rt-thread\\src\\thread.c",
+                "rt-thread\\src\\timer.c",
+                ".\\SConscript"
+            ]
+        },
+        {
+            "name": "klibc",
+            "path": "rt-thread\\src\\klibc",
+            "files": [
+                "rt-thread\\src\\klibc\\kstdio.c",
+                "rt-thread\\src\\klibc\\rt_vsnprintf_tiny.c",
+                "rt-thread\\src\\klibc\\rt_vsscanf.c",
+                "rt-thread\\src\\klibc\\kerrno.c",
+                "rt-thread\\src\\klibc\\kstring.c",
+                "rt-thread\\src\\klibc\\SConscript"
+            ]
+        },
+        {
+            "name": "libcpu",
+            "path": "rt-thread\\libcpu\\arm\\common",
+            "files": [
+                "rt-thread\\libcpu\\arm\\common\\atomic_arm.c",
+                "rt-thread\\libcpu\\arm\\common\\div0.c",
+                "rt-thread\\libcpu\\arm\\common\\showmem.c",
+                "rt-thread\\libcpu\\arm\\cortex-m3\\context_gcc.S",
+                "rt-thread\\libcpu\\arm\\cortex-m3\\cpuport.c",
+                "rt-thread\\libcpu\\arm\\common\\SConscript"
+            ]
+        },
+        {
+            "name": "STM32F1-CMSIS",
+            "path": "packages\\stm32f1_cmsis_driver-latest",
+            "files": [
+                "packages\\stm32f1_cmsis_driver-latest\\Source\\Templates\\system_stm32f1xx.c",
+                "packages\\stm32f1_cmsis_driver-latest\\Source\\Templates\\gcc\\startup_stm32f103xb.s",
+                "packages\\stm32f1_cmsis_driver-latest\\SConscript"
+            ]
+        },
+        {
+            "name": "STM32F1-HAL",
+            "path": "packages\\stm32f1_hal_driver-latest",
+            "files": [
+                "packages\\stm32f1_hal_driver-latest\\Src\\stm32f1xx_hal_rcc_ex.c",
+                "packages\\stm32f1_hal_driver-latest\\Src\\stm32f1xx_hal_gpio.c",
+                "packages\\stm32f1_hal_driver-latest\\Src\\stm32f1xx_hal_crc.c",
+                "packages\\stm32f1_hal_driver-latest\\Src\\stm32f1xx_hal_gpio_ex.c",
+                "packages\\stm32f1_hal_driver-latest\\Src\\stm32f1xx_hal_cortex.c",
+                "packages\\stm32f1_hal_driver-latest\\Src\\stm32f1xx_hal_dma.c",
+                "packages\\stm32f1_hal_driver-latest\\Src\\stm32f1xx_hal_uart.c",
+                "packages\\stm32f1_hal_driver-latest\\Src\\stm32f1xx_hal.c",
+                "packages\\stm32f1_hal_driver-latest\\Src\\stm32f1xx_hal_rcc.c",
+                "packages\\stm32f1_hal_driver-latest\\Src\\stm32f1xx_hal_cec.c",
+                "packages\\stm32f1_hal_driver-latest\\Src\\stm32f1xx_hal_usart.c",
+                "packages\\stm32f1_hal_driver-latest\\Src\\stm32f1xx_hal_pwr.c",
+                "packages\\stm32f1_hal_driver-latest\\SConscript"
+            ]
+        }
+    ]
+}
