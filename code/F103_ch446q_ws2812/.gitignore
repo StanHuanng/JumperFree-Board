@@ -25,7 +25,6 @@ template.uvprojx
 template.uvoptx
 
 # --- 自动生成的配置文件 ---
-rtconfig.h
 
 # --- 编译中间产物 ---
 build/
