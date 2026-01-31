@@ -1,0 +1,52 @@
+# MDK-ARM 编译输出和临时文件
+MDK-ARM/F103_cubemx_templete/
+MDK-ARM/*.uvguix.*
+MDK-ARM/*.uvoptx
+MDK-ARM/DebugConfig/
+
+# CubeMX 生成的临时文件
+*.ioc.bak
+*.cub
+
+# 编译和构建
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.elf
+*.hex
+*.bin
+*.asm
+
+# IDE 和编辑器配置
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# 调试文件
+*.elf.d
+*.map
+
+# Python 文件
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# 其他常见临时文件
+*.tmp
+*.log
+*.old
+*.bak
+*.swp
+.gitkeep
