@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F103xB</Define>
               <Undefine></Undefine>
-              <IncludePath>../RT-Thread;../Core/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Drivers/CMSIS/Include;../Middlewares/Third_Party/RealThread_RTOS_RT-Thread/components/finsh/inc/;../Middlewares/Third_Party/RealThread_RTOS_RT-Thread/include/;../Middlewares/oled0.96;../Middlewares/encoder_ec11</IncludePath>
+              <IncludePath>../RT-Thread;../Core/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Drivers/CMSIS/Include;../Middlewares/Third_Party/RealThread_RTOS_RT-Thread/components/finsh/inc/;../Middlewares/Third_Party/RealThread_RTOS_RT-Thread/include/;../Middlewares/oled0.96;../Middlewares/encoder_ec11;../Middlewares/easy_menu</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -686,6 +686,56 @@
               <FileName>encoder.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Middlewares\encoder_ec11\encoder.h</FilePath>
+            </File>
+            <File>
+              <FileName>Easy_Menu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Middlewares\easy_menu\Easy_Menu.c</FilePath>
+            </File>
+            <File>
+              <FileName>Easy_Menu.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Middlewares\easy_menu\Easy_Menu.h</FilePath>
+            </File>
+            <File>
+              <FileName>Easy_Menu_Core.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Middlewares\easy_menu\Easy_Menu_Core.c</FilePath>
+            </File>
+            <File>
+              <FileName>Easy_Menu_Core.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Middlewares\easy_menu\Easy_Menu_Core.h</FilePath>
+            </File>
+            <File>
+              <FileName>Easy_Menu_Item.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Middlewares\easy_menu\Easy_Menu_Item.c</FilePath>
+            </File>
+            <File>
+              <FileName>Easy_Menu_Item.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Middlewares\easy_menu\Easy_Menu_Item.h</FilePath>
+            </File>
+            <File>
+              <FileName>Easy_Menu_Page.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Middlewares\easy_menu\Easy_Menu_Page.c</FilePath>
+            </File>
+            <File>
+              <FileName>Easy_Menu_Page.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Middlewares\easy_menu\Easy_Menu_Page.h</FilePath>
+            </File>
+            <File>
+              <FileName>Easy_Menu_User.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Middlewares\easy_menu\Easy_Menu_User.c</FilePath>
+            </File>
+            <File>
+              <FileName>Easy_Menu_User.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Middlewares\easy_menu\Easy_Menu_User.h</FilePath>
             </File>
           </Files>
         </Group>

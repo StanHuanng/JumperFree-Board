@@ -24,6 +24,8 @@
 #include <rtthread.h>
 #include "oled.h"
 #include "encoder.h"
+#include "Easy_Menu.h"
+#include "Easy_Menu_User.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -61,6 +63,64 @@ static void MX_TIM2_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+#define ENCODER_STEP_COUNT  4
+#define KEY_DEBOUNCE_MS     20
+#define KEY_LONG_MS         800
+
+static uint32_t menu_tick_ms(void)
+{
+  return (uint32_t)(rt_tick_get() * 1000u / RT_TICK_PER_SECOND);
+}
+
+static Easy_Menu_Input_TYPE menu_read_input(void)
+{
+  static int32_t enc_accum = 0;
+  static GPIO_PinState key_last = GPIO_PIN_SET;
+  static uint32_t key_down_ms = 0;
+  static uint8_t long_sent = 0;
+
+  Easy_Menu_Input_TYPE input = EASY_MENU_NONE;
+
+  int16_t delta = encoder_get_delta();
+  enc_accum += delta;
+  while (enc_accum >= ENCODER_STEP_COUNT)
+  {
+    input = EASY_MENU_DOWN;
+    enc_accum -= ENCODER_STEP_COUNT;
+  }
+  while (enc_accum <= -ENCODER_STEP_COUNT)
+  {
+    input = EASY_MENU_UP;
+    enc_accum += ENCODER_STEP_COUNT;
+  }
+
+  GPIO_PinState key_now = HAL_GPIO_ReadPin(KEY_ENTER_GPIO_Port, KEY_ENTER_Pin);
+  if (key_last == GPIO_PIN_SET && key_now == GPIO_PIN_RESET)
+  {
+    key_down_ms = menu_tick_ms();
+    long_sent = 0;
+  }
+  else if (key_last == GPIO_PIN_RESET && key_now == GPIO_PIN_RESET)
+  {
+    if (!long_sent && (menu_tick_ms() - key_down_ms) >= KEY_LONG_MS)
+    {
+      input = EASY_MENU_LEFT;
+      long_sent = 1;
+    }
+  }
+  else if (key_last == GPIO_PIN_RESET && key_now == GPIO_PIN_SET)
+  {
+    uint32_t dur = menu_tick_ms() - key_down_ms;
+    if (dur >= KEY_DEBOUNCE_MS && dur < KEY_LONG_MS)
+    {
+      input = EASY_MENU_RIGHT;
+    }
+  }
+
+  key_last = key_now;
+  return input;
+}
 
 /* USER CODE END 0 */
 
@@ -100,6 +160,9 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	OLED_Init();
 	encoder_init(&htim2);
+  Easy_Menu_Init(Easy_Menu_Display_Char_Port, Easy_Menu_Display_Char_Line_Port, NULL, NULL);
+  OLED_Clear();
+  OLED_Update();
 
   /* USER CODE END 2 */
 
@@ -107,10 +170,17 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    Easy_Menu_Input_TYPE input = menu_read_input();
+    if (input != EASY_MENU_NONE)
+    {
+      Easy_Menu_Input(input);
+    }
+    Easy_Menu_Display(menu_tick_ms());
+    OLED_Update();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  rt_thread_mdelay(1000);
+	  rt_thread_mdelay(20);
   }
   /* USER CODE END 3 */
 }
@@ -256,12 +326,22 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6|GPIO_PIN_7, GPIO_PIN_RESET);
 
+  /*Configure GPIO pin : PB0 */
+  GPIO_InitStruct.Pin = GPIO_PIN_0;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
   /*Configure GPIO pins : PB6 PB7 */
   GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI0_IRQn);
 
   /* USER CODE BEGIN MX_GPIO_Init_2 */
 

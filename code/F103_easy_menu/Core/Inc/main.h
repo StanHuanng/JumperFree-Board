@@ -60,6 +60,9 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN Private defines */
 
+#define KEY_ENTER_Pin GPIO_PIN_0
+#define KEY_ENTER_GPIO_Port GPIOB
+
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus
