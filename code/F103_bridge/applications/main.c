@@ -2,6 +2,7 @@
 #include <board.h>
 #include "ch446q.h"
 #include "ws2812.h"
+#include "bridge_manager.h"
 
 /* 按键引脚定义 */
 #define KEY_PIN         GET_PIN(B, 11)
@@ -68,11 +69,12 @@ static void key_thread_entry(void *parameter)
                     
                     rt_kprintf("Key pressed: Y%d -> Y%d\n", old_y, current_y);
                     
-                    /* 断开旧连接 */
-                    ch446q_disconnect(0, old_y);
+                    /* 从桥接表移除旧连接 */
+                    bridge_remove(0, old_y);
                     
-                    /* 建立新连接 */
-                    ch446q_connect(0, current_y);
+                    /* 向桥接表加入新连接，并统一刷新到CH446Q */
+                    bridge_add(0, current_y);
+                    bridge_apply_all();
                     
                     /* 更新LED显示 */
                     ws2812_update_visual(current_y);
@@ -101,17 +103,23 @@ int main(void)
     ch446q_init();
     ch446q_reset_all();
     rt_kprintf("CH446Q reset complete.\n");
+
+    /* 2. 初始化桥接状态管理器 */
+    rt_kprintf("Initializing bridge manager...\n");
+    bridge_manager_init();
+    rt_kprintf("Bridge manager ready.\n");
     
-    /* 2. 初始化WS2812并执行自检跑马灯 */
+    /* 3. 初始化WS2812并执行自检跑马灯 */
     rt_kprintf("Initializing WS2812...\n");
     ws2812_init();
     ws2812_running_light();
     rt_thread_mdelay(500);  /* 短暂停留观察白灯效果 */
     
-    /* 3. 建立默认连接: X0 <-> Y0 */
+    /* 4. 建立默认连接: X0 <-> Y0 */
     rt_kprintf("Establishing default connection: X0 <-> Y0\n");
     current_y = 0;
-    ch446q_connect(0, current_y);
+    bridge_add(0, current_y);
+    bridge_apply_all();
     ws2812_update_visual(current_y);
     
     rt_kprintf("Initialization complete.\n");

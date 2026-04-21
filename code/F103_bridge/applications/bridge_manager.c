@@ -1,4 +1,5 @@
 #include "bridge_manager.h"
+#include "CH446Q.h"
 
 static bridge_t bridge_table[BRIDGE_MAX_COUNT];
 static rt_uint8_t bridge_used_count;
@@ -117,6 +118,34 @@ rt_err_t bridge_remove(rt_uint8_t x, rt_uint8_t y)
 
     rt_hw_interrupt_enable(level);
     return RT_EOK;
+}
+
+void bridge_apply_all(void)
+{
+    bridge_t snapshot[BRIDGE_MAX_COUNT];
+    rt_uint8_t count = 0;
+    int i;
+    rt_base_t level;
+
+    level = rt_hw_interrupt_disable();
+
+    for (i = 0; i < BRIDGE_MAX_COUNT; i++)
+    {
+        if (bridge_table[i].valid == RT_TRUE)
+        {
+            snapshot[count] = bridge_table[i];
+            count++;
+        }
+    }
+
+    rt_hw_interrupt_enable(level);
+
+    ch446q_reset_all();
+
+    for (i = 0; i < count; i++)
+    {
+        ch446q_connect(snapshot[i].x, snapshot[i].y);
+    }
 }
 
 rt_bool_t bridge_contains(rt_uint8_t x, rt_uint8_t y)
