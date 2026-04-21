@@ -1,0 +1,85 @@
+# --- Python 缓存文件 ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# --- template 工程文件策略 ---
+# 跟踪 Keil template.uvproj / template.uvprojx，忽略个人配置和临时文件
+template.uvopt*
+template.uvguix.*
+template.ew*
+*.uvguix.*        # 忽略所有 Keil 界面布局文件（个人配置）
+
+# --- 忽略 IAR 工程文件（自动生成）---
+*.ewp
+*.eww
+*.ewd
+
+# --- 自动生成的工程文件（由 scons --target=mdk5 重新生成） ---
+*.uvproj
+*.uvopt
+*.uvprojx
+*.uvoptx
+project.uvprojx
+project.uvoptx
+project.uvopt
+project.uvguix.*
+
+# --- 保留 Keil 模板工程 ---
+!template.uvproj
+!template.uvprojx
+
+# --- 自动生成的配置文件 ---
+# rtconfig.h 和 rtconfig.py 需要追踪以确保跨机器兼容性
+
+# --- 编译中间产物 ---
+build/
+*.o
+*.obj
+*.d
+*.dep
+*.map
+*.elf
+*.bin
+*.hex
+*.axf
+*.htm
+*.lnp
+*.lst
+
+# --- 其他编译器/工具产生的目录 ---
+.ci/
+.settings/
+.project
+.cproject
+# 保留 documents/ 和 figures/ - 项目说明需要在其他机器上可用
+# documents/
+# figures/
+
+# --- 其他环境冗余 ---
+# .vscode/：保留可移植的配置，忽略日志/本机路径生成物
+.vscode/*.log
+.vscode/*.log.*
+.vscode/*.lock
+.vscode/keil_project_properties.json
+.vscode/keil-assistant.log
+.vscode/uv4.log
+.vscode/uv4.log.lock
+.vscode/rt-thread_uv4.log
+.vscode/c_cpp_properties.json
+.vscode/project.json
+# 允许你手写的可移植配置
+!.vscode/settings.json
+!.vscode/tasks.json
+DebugConfig/
+JLinkLog.txt
+JLinkSettings.ini
+.DS_Store
+
+# --- packages 目录配置 ---
+# 忽略包中的 .git 目录（防止子模块冲突）
+packages/*/.git/
+# 保留包的配置文件
+!packages/pkgs.json
+!packages/SConscript

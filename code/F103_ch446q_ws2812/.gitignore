@@ -4,8 +4,10 @@ __pycache__/
 *.pyo
 *.pyd
 
-# --- 忽略所有 template 相关的工程临时文件 ---
-template.uv*
+# --- template 工程文件策略 ---
+# 跟踪 Keil template.uvproj / template.uvprojx，忽略个人配置和临时文件
+template.uvopt*
+template.uvguix.*
 template.ew*
 *.uvguix.*        # 忽略所有 Keil 界面布局文件（个人配置）
 
@@ -21,6 +23,10 @@ project.uvprojx
 project.uvoptx
 project.uvopt
 project.uvguix.*
+
+# --- 保留 Keil 模板工程 ---
+!template.uvproj
+!template.uvprojx
 
 
 # --- 自动生成的配置文件 ---
